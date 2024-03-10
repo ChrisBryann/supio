@@ -1,4 +1,4 @@
-import Revivsome_SM_WB from "@/public/images/revivsome_sm_wb.jpg";
+import Revivsome_SM_WB from "../public/images/revivsome_sm_wb.jpg";
 import Image from "next/image";
 
 export default function Hero() {
