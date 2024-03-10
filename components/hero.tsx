@@ -1,5 +1,3 @@
-import VideoThumb from "@/public/images/hero-image.png";
-import ModalVideo from "@/components/modal-video";
 import Revivsome_SM_WB from "@/public/images/revivsome_sm_wb.jpg";
 import Image from "next/image";
 
