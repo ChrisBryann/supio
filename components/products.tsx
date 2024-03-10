@@ -82,7 +82,7 @@ export default function Products({ products }: Props) {
                         </div>
                       </div>
                       <Link
-                        href={`/products/${product.id}`}
+                        href={{pathname: `/products/${product.id}`}}
                         className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3"
                       >
                         <svg

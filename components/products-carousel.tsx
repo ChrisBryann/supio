@@ -137,7 +137,7 @@ const ProductsCarousel: React.FC<PropType> = (props) => {
                         height="500"
                         alt="revivsome_sm"
                       />
-                      <Link href={`/products/${product.id}`} className="text-blue-500 my-2 hover:text-blue-600">View product</Link>
+                      <Link href={{pathname: `/products/${product.id}`}} className="text-blue-500 my-2 hover:text-blue-600">View product</Link>
                     </div>
                   </div>
                 ))}

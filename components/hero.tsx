@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section className="relative">
       {/* Illustration behind hero content */}
-      <div
+      {/* <div
         className="absolute left-1/2 transform -translate-x-1/2 bottom-0 pointer-events-none -z-1"
         aria-hidden="true"
       >
@@ -35,7 +35,7 @@ export default function Hero() {
             <circle cx="155" cy="443" r="64" />
           </g>
         </svg>
-      </div>
+      </div> */}
 
       <div className=" mx-auto px-4 sm:px-6">
         {/* Hero content */}
@@ -50,7 +50,7 @@ export default function Hero() {
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-teal-400">
                 Skin
               </span>{" "}
-              With The State-of-The-Art Biotechnology
+              With State-of-The-Art Biotechnology
             </h1>
             <div className="max-w-3xl mx-auto g">
               {/* <p className="text-xl text-gray-600 mb-8" data-aos="zoom-y-out" data-aos-delay="150">Our landing page template works on all devices, so you only have to set it up once, and get beautiful results forever.</p> */}

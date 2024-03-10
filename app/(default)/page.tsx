@@ -6,6 +6,7 @@
 // };
 
 import Hero from "@/components/hero";
+
 import Products from "@/components/products";
 import { useEffect, useState } from "react";
 import { collection, getDocs, limit, query } from "firebase/firestore";
