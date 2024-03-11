@@ -19,7 +19,6 @@ const ProductDescription = ({ product_id, existingProduct }: Props) => {
   useEffect(() => {
     setLoading(true);
     if (!!existingProduct) {
-        console.log('found');
         
       const _product = JSON.parse(existingProduct) as Product;
       setProduct(_product);
@@ -35,7 +34,6 @@ const ProductDescription = ({ product_id, existingProduct }: Props) => {
               id: snapshot.id,
             });
           } else {
-            console.log('not found');
             
             router.push('/');
           }

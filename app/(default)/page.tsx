@@ -19,13 +19,11 @@ export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    console.log('called landing');
     
     setLoading(true);
     // get the products of supio
     getDocs(query(collection(db, "products"), limit(3)))
       .then((querySnapshot) => {
-        console.log(`Query Snapshot: ${querySnapshot}`);
         
         let _products: Product[] = [];
         querySnapshot.forEach((snapshot) => {
