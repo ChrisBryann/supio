@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 import Link from "next/link";
 import BrandLogo from "@/public/images/brand-logo.png";
-import Dropdown from "@/components/utils/dropdown";
 import MobileMenu from "./mobile-menu";
 import Image from "next/image";
 
@@ -61,7 +60,7 @@ export default function Header() {
                   Sign in
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   href="/signup"
                   className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
@@ -78,7 +77,7 @@ export default function Header() {
                     />
                   </svg>
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
 
