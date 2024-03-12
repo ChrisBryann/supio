@@ -5,7 +5,7 @@ import { Product } from "./types";
 async function getProductById(productId: string, origin: string, cookie: string) {
   try {
     console.log(productId, `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products/${productId}`)
-    const res = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products/${productId}`, {
+    const res = await fetch(`${origin}/api/products/${productId}`, {
       headers: {
         cookie
       }
