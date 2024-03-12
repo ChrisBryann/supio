@@ -4,7 +4,7 @@ import { Product } from "./types";
 
 async function getProductById(productId: string) {
   try {
-    const res = await fetch(`${process.env.VERCEL_URL}/api/products/${productId}`)
+    const res = await fetch(`https://${process.env.VERCEL_URL}/api/products/${productId}`)
     const data = await res.json();
     return !!data.product ? JSON.parse(data.product) : null;
   } catch (error) {
