@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Product } from "./types";
 
-async function getProductById(productId: string) {
+async function getProductById(productId: string, origin: string, cookie: string) {
   try {
     console.log(productId, `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products/${productId}`)
-    const res = await fetch(`/api/products/${productId}`)
+    const res = await fetch(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products/${productId}`, {
+      headers: {
+        cookie
+      }
+    })
     const data = await res.json();
     return !!data.product ? JSON.parse(data.product) : null;
   } catch (error) {
@@ -22,7 +26,7 @@ export async function middleware(request: NextRequest) {
     const productId = request.nextUrl.pathname.split("/").pop() as string;
 
     try {
-      const productData = await getProductById(productId);
+      const productData = await getProductById(productId, request.nextUrl.origin, request.headers.getSetCookie().join(';'));
 
       if (productData) {
         const headers = new Headers(request.headers);
