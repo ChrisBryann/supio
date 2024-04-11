@@ -3,11 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Image from "next/image";
-import FeaturesBg from "@/public/images/features-bg.png";
-import RevivsomeWB from "@/public/images/revivsome_wb.jpg";
-import RevivsomeSM from "@/public/images/revivsome_sm.jpg";
-import WaterDropsCream from "@/public/images/water_drops_cream.png";
-import FeaturesElement from "@/public/images/features-element.png";
 import Link from "next/link";
 import { Product } from "@/types";
 
@@ -82,7 +77,7 @@ export default function Products({ products }: Props) {
                         </div>
                       </div>
                       <Link
-                        href={{pathname: `/products/${product.id}`}}
+                        href={{ pathname: `/products/${product.id}` }}
                         className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3"
                       >
                         <svg
@@ -221,7 +216,7 @@ export default function Products({ products }: Props) {
                       >
                         <div className="relative inline-flex flex-col">
                           <Image
-                            className="md:max-w-none mx-auto my-auto rounded"
+                            className="md:max-w-noneee mx-auto my-auto rounded"
                             src={product.image_url}
                             width={450}
                             height="480"
@@ -231,55 +226,6 @@ export default function Products({ products }: Props) {
                       </Transition>
                     );
                   })}
-
-                  {/* Item 2 */}
-                  {/* <Transition
-                    show={tab === 2}
-                    appear={true}
-                    className="w-full"
-                    enter="transition ease-in-out duration-700 transform order-first"
-                    enterFrom="opacity-0 translate-y-16"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in-out duration-300 transform absolute"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 -translate-y-16"
-                    beforeEnter={() => heightFix()}
-                    unmount={false}
-                  >
-                    <div className="relative inline-flex flex-col">
-                      <Image
-                        className="md:max-w-none mx-auto rounded"
-                        src={RevivsomeWB}
-                        width={450}
-                        height="462"
-                        alt="revivsome_wb"
-                      />
-                    </div>
-                  </Transition> */}
-                  {/* Item 3 */}
-                  {/* <Transition
-                    show={tab === 3}
-                    appear={true}
-                    className="w-full"
-                    enter="transition ease-in-out duration-700 transform order-first"
-                    enterFrom="opacity-0 translate-y-16"
-                    enterTo="opacity-100 translate-y-0"
-                    leave="transition ease-in-out duration-300 transform absolute"
-                    leaveFrom="opacity-100 translate-y-0"
-                    leaveTo="opacity-0 -translate-y-16"
-                    beforeEnter={() => heightFix()}
-                    unmount={false}
-                  >
-                    <div className="relative inline-flex flex-col">
-                      <Image
-                        className="md:max-w-none mx-auto rounded"
-                        src={WaterDropsCream}
-                        width={450}
-                        height="462"
-                        alt="Features bg"
-                      />
-                    </div>
-                  </Transition> */}
                 </div>
               </div>
             </div>

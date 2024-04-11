@@ -1,55 +1,67 @@
-import { NextResponse } from "next/server";
+import { NextResponse, URLPattern } from "next/server";
 import type { NextRequest } from "next/server";
 import { Product } from "./types";
+import { cookies } from "next/headers";
 
-async function getProductById(productId: string, origin: string, cookie: string) {
-  try {
-    console.log(productId, `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products/${productId}`)
-    const res = await fetch(`${origin}/api/products/${productId}`, {
-      headers: {
-        cookie
-      }
-    })
-    const data = await res.json();
-    return !!data.product ? JSON.parse(data.product) : null;
-  } catch (error) {
-    console.error("Error fetching product data:", error);
-    throw error; // Propagate the error so it can be handled elsewhere if needed
-  }
-}
+// async function getProductById(productId: string, origin: string) {
+//   try {
+//     const res = await fetch(`${origin}/api/products/${productId}`);
+//     const data = await res.json();
+//     return !!data.product ? JSON.parse(data.product) : null;
+//   } catch (error) {
+//     console.error("Error fetching product data:", error);
+//     throw error; // Propagate the error so it can be handled elsewhere if needed
+//   }
+// }
 
 export async function middleware(request: NextRequest) {
-  if (
-    request.nextUrl.pathname.includes("/products") &&
-    request.nextUrl.pathname !== "/products"
-  ) {
-    const productId = request.nextUrl.pathname.split("/").pop() as string;
+  console.log("in middleware");
 
+  if (request.nextUrl.pathname.includes("/signin")) {
+    console.log("in signin");
+
+    // if a user is already logged in and still tries to access the /signin url, redirect them back to dashboard
     try {
-      const productData = await getProductById(productId, request.nextUrl.origin, request.headers.getSetCookie().join(';'));
+      // verify if the token_id stored in context or cookies is still valid (using firebase) by calling the api route
 
-      if (productData) {
-        const headers = new Headers(request.headers);
-        headers.set(
-          "product",
-          JSON.stringify({ ...(productData as Product), id: productId } as Product)
-        );
-
-        return NextResponse.next({
-          request: {
-            headers,
-          },
-        });
-      } else {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
+      await fetch(`${request.nextUrl.origin}/api/auth/verify`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          user: cookies().get("user")!.value,
+        }),
+      });
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     } catch (error) {
-      console.error("Error processing request:", error);
+      console.error("Error fetching product data:", error);
+      return NextResponse.next();
+    }
+  }
+
+  if (request.nextUrl.pathname.includes("/dashboard")) {
+    try {
+      // verify if the token_id stored in context or cookies is still valid (using firebase) by calling the api route
+      await fetch(`${request.nextUrl.origin}/api/auth/verify`, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          user: cookies().get("user")!.value,
+        }),
+      });
+    } catch (error) {
+      console.error("Error fetching product data:", error);
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
+  return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/products/:path*"],
+  matcher: ["/products/:path*", "/dashboard/:path*", "/signin"],
 };

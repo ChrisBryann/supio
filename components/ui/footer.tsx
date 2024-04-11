@@ -1,5 +1,6 @@
 import Image from "next/image";
 import BrandLogo from "@/public/images/brand-logo.png";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -10,14 +11,16 @@ export default function Footer() {
           {/* 1st block */}
           <div className="sm:col-span-12 lg:col-span-3">
             <div className="mb-2">
-              <Image
-                className="md:max-w-none rounded hover:cursor-pointer"
-                src={BrandLogo}
-                width={200}
-                height={200}
-                alt="brand_logo"
-                data-aos="zoom-y-out"
-              />
+              <Link href={"/"}>
+                <Image
+                  className="md:max-w-none rounded hover:cursor-pointer"
+                  src={BrandLogo}
+                  width={200}
+                  height={200}
+                  alt="brand_logo"
+                  data-aos="zoom-y-out"
+                />
+              </Link>
             </div>
             <div className="text-sm text-gray-600 pl-2">
               <a

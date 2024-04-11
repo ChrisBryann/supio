@@ -6,9 +6,12 @@ import Link from "next/link";
 import BrandLogo from "@/public/images/brand-logo.png";
 import MobileMenu from "./mobile-menu";
 import Image from "next/image";
+import { useAuth } from "@/store/AuthContext/context";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
+
+  const authCtx = useAuth();
 
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
@@ -38,7 +41,6 @@ export default function Header() {
                 width={200}
                 height={200}
                 alt="brand_logo"
-                data-aos="zoom-y-out"
               />
             </Link>
           </div>
@@ -49,21 +51,33 @@ export default function Header() {
           </div> */}
 
           {/* Desktop navigation */}
-          <nav className="hidden md:flex">
+          <nav className="hidden md:flex md:grow">
             {/* Desktop sign in links */}
+            {authCtx.user.token_id && (
+              <ul className="pl-4 flex grow justify-between flex-wrap items-center">
+                <li>
+                  <Link
+                    href={"/dashboard"}
+                    className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              </ul>
+            )}
             <ul className="flex grow justify-end flex-wrap items-center">
               <li>
                 <Link
-                  href="/signin"
-                  className="font-medium text-gray-600 hover:text-gray-900 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                  href={authCtx.user.token_id ? "/signout" : "/signin"}
+                  className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
                 >
-                  Sign in
+                  {authCtx.user.token_id ? "Sign out" : "Sign in"}
                 </Link>
               </li>
               {/* <li>
                 <Link
                   href="/signup"
-                  className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 ml-3"
+                  className="btn-sm text-gray-200 bg-gray-600 hover:bg-gray-800 ml-3"
                 >
                   <span>Sign up</span>
                   <svg

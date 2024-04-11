@@ -1,103 +1,59 @@
-"use client";
-import { db } from "@/firebase.config";
 import { Product } from "@/types";
-import { doc, getDoc } from "firebase/firestore";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
 type Props = {
-  product_id: string;
-  existingProduct: string | null;
+  product: Product;
 };
 
-const ProductDescription = ({ product_id, existingProduct }: Props) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [product, setProduct] = useState<Product>();
-
-  const router = useRouter();
-  useEffect(() => {
-    setLoading(true);
-    if (!!existingProduct) {
-        
-      const _product = JSON.parse(existingProduct) as Product;
-      setProduct(_product);
-      setLoading(false);
-    } else {
-        
-      getDoc(doc(db, "products", product_id))
-        .then((snapshot) => {
-          if (snapshot.exists()) {
-            console.log("exists");
-            setProduct({
-              ...(snapshot.data() as Product),
-              id: snapshot.id,
-            });
-          } else {
-            
-            router.push('/');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          router.push('/');
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    }
-  }, [product_id, existingProduct, router]);
+const ProductDescription = ({ product }: Props) => {
   return (
-    !loading &&
-    product && (
-      <section
-        className="bg-gradient-to-b from-gray-100 to-white"
-        data-aos="zoom-y-out"
-      >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6">
-          <div className="pt-32 pb-12 md:pt-40 md:pb-20">
-            {/* Page header */}
+    <section
+      className="bg-gradient-to-b from-gray-100 to-white"
+      data-aos="zoom-y-out"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+          {/* Page header */}
 
-            <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row space-x-8">
-              <div className="">
-                <Image
-                  className="md:max-w-none mx-auto rounded"
-                  src={product.image_url}
-                  width={450}
-                  height="500"
-                  alt={product.name}
-                />
+          <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row space-y-8 md:space-x-8">
+            <div className="">
+              <Image
+                className="md:max-w-none mx-auto rounded"
+                src={product.image_url}
+                width={450}
+                height="500"
+                alt={product.name}
+              />
+            </div>
+            <div className="px-4 mx-auto text-left flex flex-col space-y-6">
+              <div className="text-4xl font-semibold">{product.name}</div>
+              <div className="text-md font-medium text-gray-700">
+                {product.main_description}
               </div>
-              <div className="px-4 mx-auto text-left flex flex-col space-y-6">
-                <div className="text-4xl font-semibold">{product.name}</div>
-                <div className="text-md font-medium text-gray-700">
-                  {product.main_description}
-                </div>
 
-                <div
-                  style={{ whiteSpace: "pre-line" }}
-                  className="text-md font-medium text-gray-700"
+              <div
+                style={{ whiteSpace: "pre-line" }}
+                className="text-md font-medium text-gray-700"
+              >
+                {product.additional_description?.replaceAll("\\n", "\n")}
+              </div>
+              <button className="p-2 mr-auto text-md text-white rounded-md bg-black flex justify-center items-center gap-2 hover:bg-gray-900">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="white"
+                  viewBox="0 0 16 16"
                 >
-                  {product.additional_description?.replace("\\n", "\n")}
-                </div>
-                <button className="p-2 mr-auto text-md text-white rounded-md bg-black flex justify-center items-center gap-2 hover:bg-gray-900">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    fill="white"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                  </svg>
-                  Share
-                </button>
-              </div>
+                  <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
+                </svg>
+                Share
+              </button>
             </div>
           </div>
         </div>
-      </section>
-    )
+      </div>
+    </section>
   );
 };
 

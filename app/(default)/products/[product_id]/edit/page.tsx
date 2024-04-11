@@ -1,5 +1,6 @@
-import ProductDescription from "@/components/product-description";
+import EditProductComponent from "@/components/edit-product";
 import { Product } from "@/types";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 type Params = {
@@ -8,7 +9,7 @@ type Params = {
   };
 };
 
-const ProductDescriptionPage = async ({ params }: Params) => {
+const EditProduct = async ({ params }: Params) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products?id=${params.product_id}`,
     {
@@ -24,7 +25,7 @@ const ProductDescriptionPage = async ({ params }: Params) => {
 
   const product = data.product as Product;
 
-  return <ProductDescription product={product} />;
+  return <EditProductComponent product={product} />;
 };
 
-export default ProductDescriptionPage;
+export default EditProduct;
