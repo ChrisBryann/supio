@@ -20,7 +20,7 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
   const onSave = async (product: Product) => {
     setSaving(true);
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`,
+      `${window.location.protocol}${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`,
       {
         method: mode === "edit" ? "PATCH" : "POST",
         body: JSON.stringify(product),
