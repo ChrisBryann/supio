@@ -56,7 +56,7 @@ export const AuthContextProvider = ({
         try {
           const token_id = await user.getIdToken();
           setCookie("user", token_id, {
-            maxAge: 3600, // one hour
+            // maxAge: 3600, // one hour
           });
           setUser({
             email: user.email,

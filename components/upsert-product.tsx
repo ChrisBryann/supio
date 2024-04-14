@@ -1,7 +1,7 @@
 "use client";
 import { Product } from "@/types";
 import Image from "next/image";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import * as _ from "lodash";
 import { useRouter } from "next/navigation";
 
@@ -23,9 +23,7 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
       `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`,
       {
         method: mode === "edit" ? "PATCH" : "POST",
-        body: JSON.stringify({
-          product,
-        }),
+        body: JSON.stringify(product),
       }
     );
     setSaving(false);
@@ -33,6 +31,17 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
     mode === "edit" ? router.refresh() : router.replace("/dashboard");
     setTimeout(() => setSaved(null), 5000);
   };
+
+  const onUpdateImage = (e: FormEvent<HTMLInputElement>) => {
+    if (e.currentTarget.files && e.currentTarget.files.length == 1) {
+      const blobImage = URL.createObjectURL(e.currentTarget.files[0]);
+      setProduct((p) => ({
+        ...p,
+        image_url: blobImage,
+      }));
+    }
+  };
+
   return (
     <section
       className="bg-gradient-to-b from-gray-100 to-white"
@@ -46,35 +55,49 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
             </h2>
           </header>
 
-          <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row space-y-8 md:space-x-8">
-            <div className="hover:opacity-50">
-              <Image
-                className="md:max-w-none mx-auto rounded"
-                src={product.image_url}
-                width={450}
-                height="500"
-                alt={product.name}
-              />
+          <div className="mx-auto text-center pb-12 md:pb-20 grid md:grid-cols-2 space-y-8 md:space-x-8">
+            <div className="flex flex-col gap-2 justify-center">
+              {product.image_url && (
+                <Image
+                  className="mx-auto rounded"
+                  src={product.image_url}
+                  width={450}
+                  height="500"
+                  alt={product.name}
+                />
+              )}
+              <label
+                htmlFor="product_image"
+                className="font-semibold hover:cursor-pointer hover:text-gray-700"
+              >
+                {mode === "edit" ? "Edit" : "Add"} Image
+                <input
+                  onChange={onUpdateImage}
+                  type="file"
+                  id="product_image"
+                  accept=".jpg"
+                  hidden
+                />
+              </label>
             </div>
             <div className="px-4 w-full text-left flex flex-col space-y-6">
               <label
                 htmlFor="name"
-                className="relative block overflow-hidden border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600"
+                className="relative border-b border-gray-200 bg-transparent pt-3 focus-within:border-blue-600"
               >
                 <input
                   type="text"
                   id="name"
                   defaultValue={product.name}
                   onChange={(e) => {
-                    e.target.value &&
-                      setProduct((p) => {
-                        return {
-                          ...p,
-                          name: e.target.value,
-                        };
-                      });
+                    setProduct((p) => {
+                      return {
+                        ...p,
+                        name: e.target.value,
+                      };
+                    });
                   }}
-                  className="peer h-10 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 sm:text-3xl"
+                  className="peer h-10 w-full border-none bg-transparent p-0 placeholder-transparent focus:border-transparent focus:outline-none focus:ring-0 text-2xl sm:text-3xl"
                 />
 
                 <span className="absolute start-0 top-2 -translate-y-1/2 font-semibold text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-2 peer-focus:text-xs">
@@ -87,12 +110,10 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
                   className="text-md font-medium text-gray-700"
                 >
                   Main Description:
-                </label>
-                <textarea
-                  id="main_description"
-                  className="mt-2 w-full rounded-lg border-gray-200 shadow-sm"
-                  onChange={(e) => {
-                    e.target.value &&
+                  <textarea
+                    id="main_description"
+                    className="mt-2 w-full rounded-lg border-gray-200 shadow-sm"
+                    onChange={(e) => {
                       setProduct((p) => {
                         return {
                           ...p,
@@ -102,10 +123,11 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
                           ),
                         };
                       });
-                  }}
-                  rows={6}
-                  defaultValue={product.main_description}
-                />
+                    }}
+                    rows={6}
+                    defaultValue={product.main_description}
+                  />
+                </label>
               </div>
 
               {/* <div
@@ -120,12 +142,10 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
                   className="text-md font-medium text-gray-700"
                 >
                   Additional Description:
-                </label>
-                <textarea
-                  id="additional_description"
-                  className="mt-2 w-full rounded-lg border-gray-200 shadow-sm"
-                  onChange={(e) => {
-                    e.target.value &&
+                  <textarea
+                    id="additional_description"
+                    className="mt-2 w-full rounded-lg border-gray-200 shadow-sm"
+                    onChange={(e) => {
                       setProduct((p) => {
                         return {
                           ...p,
@@ -135,13 +155,14 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
                           ),
                         };
                       });
-                  }}
-                  rows={6}
-                  defaultValue={product.additional_description?.replaceAll(
-                    "\\n",
-                    "\n"
-                  )}
-                />
+                    }}
+                    rows={6}
+                    defaultValue={product.additional_description?.replaceAll(
+                      "\\n",
+                      "\n"
+                    )}
+                  />
+                </label>
               </div>
               <div className="flex mx-auto gap-x-2 items-center">
                 <button
@@ -149,7 +170,11 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
                   onClick={async () => {
                     await onSave(product);
                   }}
-                  disabled={_.isEqual(product, _product) || !!saved}
+                  disabled={
+                    mode == "edit"
+                      ? _.isEqual(product, _product) || !!saved
+                      : _.values(_.omit(product, "id")).some(_.isEmpty)
+                  }
                 >
                   {saving ? "Saving..." : "Save"}
                 </button>

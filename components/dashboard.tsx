@@ -23,9 +23,9 @@ const DashboardComponent = ({ products }: Props) => {
                   View your products here.
                 </p>
               </header>
-              <button className="underline font-semibold hover:text-gray-600 transition duration-150 ease-in-out">
+              <Link href={'/products/add'} className="underline font-semibold hover:text-gray-600 transition duration-150 ease-in-out">
                 Add Product
-              </button>
+              </Link>
             </div>
 
             <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

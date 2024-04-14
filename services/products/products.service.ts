@@ -1,4 +1,4 @@
-import { db } from "@/firebase.config";
+import { db, storage } from "@/firebase.config";
 import { Product } from "@/types";
 import {
   addDoc,
@@ -10,6 +10,7 @@ import {
   query,
   updateDoc,
 } from "firebase/firestore";
+import { ref, uploadBytes } from "firebase/storage";
 
 export const getProductById = async (
   product_id: string
@@ -54,6 +55,18 @@ export const addProduct = async ({
   ...addedProduct
 }: Product): Promise<void> => {
   try {
+    // check if image has been updated, if so, update the image in firebase storage
+
+    if (addedProduct.image_url.startsWith("blob")) {
+      const imageRef = ref(storage, `products/${id}.jpg`);
+
+      await uploadBytes(
+        imageRef,
+        new Blob([addedProduct.image_url], {
+          type: "image/jpg",
+        })
+      );
+    }
     await addDoc(collection(db, "products"), addedProduct);
   } catch (err) {
     throw err;
@@ -65,6 +78,18 @@ export const updateProduct = async ({
   ...updatedProduct
 }: Product): Promise<void> => {
   try {
+    // check if image has been updated, if so, update the image in firebase storage
+
+    if (updatedProduct.image_url.startsWith("blob")) {
+      const imageRef = ref(storage, `products/${id}.jpg`);
+
+      await uploadBytes(
+        imageRef,
+        new Blob([updatedProduct.image_url], {
+          type: "image/jpg",
+        })
+      );
+    }
     await updateDoc(doc(db, "products", id), updatedProduct);
   } catch (err) {
     throw err;
