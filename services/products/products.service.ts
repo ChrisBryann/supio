@@ -1,6 +1,7 @@
 import { db } from "@/firebase.config";
 import { Product } from "@/types";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -10,7 +11,6 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-// GET /product?id=[product_id]
 export const getProductById = async (
   product_id: string
 ): Promise<Product | null> => {
@@ -26,7 +26,7 @@ export const getProductById = async (
     throw err;
   }
 };
-// GET /product
+
 export const getProducts = async (doc_limit?: number): Promise<Product[]> => {
   try {
     const q = doc_limit
@@ -49,7 +49,16 @@ export const getProducts = async (doc_limit?: number): Promise<Product[]> => {
   }
 };
 
-export const addProduct = (product: Product) => {};
+export const addProduct = async ({
+  id,
+  ...addedProduct
+}: Product): Promise<void> => {
+  try {
+    await addDoc(collection(db, "products"), addedProduct);
+  } catch (err) {
+    throw err;
+  }
+};
 
 export const updateProduct = async ({
   id,

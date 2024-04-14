@@ -1,4 +1,5 @@
 import {
+  addProduct,
   getProductById,
   getProducts,
   updateProduct,
@@ -66,7 +67,32 @@ export async function GET(
   }
 }
 
-export async function POST(request: NextRequest) {}
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    if (body && body.product) {
+      // POST /api/products BODY {product: Product}
+      await addProduct(body.product as Product);
+      return NextResponse.json(
+        {},
+        {
+          status: 200,
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    }
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: `Error: ${err}`,
+      },
+      { status: 500 }
+    );
+  }
+}
 
 export async function PATCH(request: NextRequest) {
   try {

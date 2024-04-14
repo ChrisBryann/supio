@@ -1,4 +1,4 @@
-import EditProductComponent from "@/components/edit-product";
+import UpsertProductComponent from "@/components/upsert-product";
 import { Product } from "@/types";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -25,7 +25,7 @@ const EditProduct = async ({ params }: Params) => {
 
   const product = data.product as Product;
 
-  return <EditProductComponent product={product} />;
+  return <UpsertProductComponent product={product} mode="edit" />;
 };
 
 export default EditProduct;

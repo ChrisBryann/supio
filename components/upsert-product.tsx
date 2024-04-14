@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 
 type Props = {
   product: Product;
+  mode: "add" | "edit";
 };
 
-const EditProductComponent = ({ product: _product }: Props) => {
+const UpsertProductComponent = ({ product: _product, mode }: Props) => {
   const [product, setProduct] = useState<Product>(_product);
   const [saved, setSaved] = useState<boolean | null>(null);
   const [saving, setSaving] = useState<boolean>(false);
@@ -21,7 +22,7 @@ const EditProductComponent = ({ product: _product }: Props) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products`,
       {
-        method: "PATCH",
+        method: mode === "edit" ? "PATCH" : "POST",
         body: JSON.stringify({
           product,
         }),
@@ -29,7 +30,7 @@ const EditProductComponent = ({ product: _product }: Props) => {
     );
     setSaving(false);
     setSaved(response.ok);
-    router.refresh();
+    mode === "edit" ? router.refresh() : router.replace("/dashboard");
     setTimeout(() => setSaved(null), 5000);
   };
   return (
@@ -41,7 +42,7 @@ const EditProductComponent = ({ product: _product }: Props) => {
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           <header className="py-4 w-full text-center sm:text-left">
             <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
-              Edit Product
+              {mode === "edit" ? "Edit" : "Add"} Product
             </h2>
           </header>
 
@@ -162,4 +163,4 @@ const EditProductComponent = ({ product: _product }: Props) => {
   );
 };
 
-export default EditProductComponent;
+export default UpsertProductComponent;
