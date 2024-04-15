@@ -1,6 +1,6 @@
 import UpsertProductComponent from "@/components/upsert-product";
 import { Product } from "@/types";
-import { headers } from "next/headers";
+import { BASE_URL } from "@/utils/url";
 import { redirect } from "next/navigation";
 
 type Params = {
@@ -11,7 +11,7 @@ type Params = {
 
 const EditProduct = async ({ params }: Params) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products?id=${params.product_id}`,
+    `${BASE_URL}/api/products?id=${params.product_id}`,
     {
       cache: "no-cache",
     }

@@ -1,12 +1,20 @@
 import ProductsCarousel from "@/components/products-carousel";
+import { Product } from "@/types";
+import { BASE_URL } from "@/utils/url";
 
-const ProductsPage = () => {
+const ProductsPage = async () => {
+  const response = await fetch(`${BASE_URL}/api/products`, {
+    cache: "no-cache",
+  });
 
-  return (
-    <ProductsCarousel
-      options={{ loop: true, align: "center" }}
-    />
-  );
+  if (!response.ok) {
+    // redirect 404 no connection?
+    return <></>;
+  }
+  const data = await response.json();
+  // if (!data || (data && !data.products)) return <></>;
+  const products = ((data && data.products) ?? []) as Product[];
+  return <ProductsCarousel products={products} options={{ loop: true, align: "center" }} />;
 };
 
 export default ProductsPage;

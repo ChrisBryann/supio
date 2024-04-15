@@ -1,10 +1,11 @@
 import Hero from "@/components/hero";
 import Products from "@/components/products";
 import { Product } from "@/types";
+import { BASE_URL } from "@/utils/url";
 
 export default async function Home() {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/products?doc_limit=3`,
+    `${BASE_URL}/api/products?doc_limit=3`,
     {
       cache: "no-cache",
     }
