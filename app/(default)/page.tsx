@@ -4,6 +4,8 @@ import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 
 export default async function Home() {
+  console.log(BASE_URL);
+  
   const response = await fetch(
     `${BASE_URL}/api/products?doc_limit=3`,
     {
