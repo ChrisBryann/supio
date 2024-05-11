@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useAuth } from "@/store/AuthContext/context";
+import { useAuth } from "@/store/AuthContext/_context";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -12,6 +13,7 @@ export default function MobileMenu() {
   const mobileNav = useRef<HTMLDivElement>(null);
 
   const authCtx = useAuth();
+  const { data: session, status } = useSession();
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -87,13 +89,21 @@ export default function MobileMenu() {
                 </Link>
               )}
 
-              <Link
-                href={authCtx.user.token_id ? "/signout" : "/signin"}
+              <p
                 className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                onClick={() => setMobileNavOpen(false)}
+                onClick={() => {
+                  setMobileNavOpen(false);
+                  session
+                  ? signOut({
+                    callbackUrl: "/",
+                  })
+                  : signIn("", {
+                      callbackUrl: "/dashboard",
+                    });
+                }}
               >
-                {authCtx.user.token_id ? "Sign out" : "Sign in"}
-              </Link>
+                {session ? "Sign out" : "Sign in"}
+              </p>
             </li>
             {/* <li>
               <Link href="/signup" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 w-full my-2" onClick={() => setMobileNavOpen(false)}>

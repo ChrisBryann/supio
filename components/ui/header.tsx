@@ -6,13 +6,13 @@ import Link from "next/link";
 import BrandLogo from "@/public/images/brand-logo.png";
 import MobileMenu from "./mobile-menu";
 import Image from "next/image";
-import { useAuth } from "@/store/AuthContext/context";
+import { useAuth } from "@/store/AuthContext/_context";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
-
   const authCtx = useAuth();
-
+  const { data: session, status } = useSession();
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
@@ -67,12 +67,20 @@ export default function Header() {
             )}
             <ul className="flex grow justify-end flex-wrap items-center">
               <li>
-                <Link
-                  href={authCtx.user.token_id ? "/signout" : "/signin"}
-                  className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out"
+                <p
+                  onClick={() => {
+                    !!session
+                      ? signOut({
+                          callbackUrl: "/",
+                        })
+                      : signIn("", {
+                          callbackUrl: "/dashboard",
+                        });
+                  }}
+                  className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 flex items-center transition duration-150 ease-in-out cursor-pointer"
                 >
-                  {authCtx.user.token_id ? "Sign out" : "Sign in"}
-                </Link>
+                  {!!session ? "Sign out" : "Sign in"}
+                </p>
               </li>
               {/* <li>
                 <Link
