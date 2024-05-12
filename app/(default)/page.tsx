@@ -4,13 +4,15 @@ import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 
 export default async function Home() {
-  
+
   const response = await fetch(
     `${BASE_URL}/api/products?doc_limit=3`,
     {
       cache: "no-cache",
     }
   );
+  console.log(response);
+  
 
   if (!response.ok) {
     // redirect 404 no connection?
