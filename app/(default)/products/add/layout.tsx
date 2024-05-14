@@ -8,7 +8,7 @@ const AddProductLayout = ({ children }: { children: React.ReactNode }) => {
       data-aos="zoom-y-out"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+        <div className="pt-16 pb-12 md:pb-20">
           <header className="py-4 w-full text-center sm:text-left">
             <h2 className="text-xl font-bold text-gray-900 sm:text-3xl">
               Add Product

@@ -11,8 +11,6 @@ export default function MobileMenu() {
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
-
-  const authCtx = useAuth();
   const { data: session, status } = useSession();
 
   // close the mobile menu on click outside
@@ -79,7 +77,7 @@ export default function MobileMenu() {
         >
           <ul className="px-5 py-2">
             <li>
-              {authCtx.user.token_id && (
+              {session && (
                 <Link
                   href={"/dashboard"}
                   className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"

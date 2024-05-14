@@ -6,7 +6,7 @@ export default function Hero() {
     <section className="relative">
       <div className="mx-auto px-4 sm:px-6">
         {/* Hero content */}
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20 grid lg:grid-cols-2 items-center">
+        <div className="pt-32 md:pt-40 pb-12 md:pb-20 grid lg:grid-cols-2 items-center">
           {/* Section header */}
           <div className="text-center pb-12 md:pb-16">
             <h1

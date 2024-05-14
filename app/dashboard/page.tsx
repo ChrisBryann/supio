@@ -3,7 +3,7 @@ import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 
-export const getServerSideProps = (async () => {
+const getServerSideProps = (async () => {
   const response = await fetch(`${BASE_URL}/api/products?doc_limit=3`, {
     cache: "no-cache",
   });

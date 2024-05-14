@@ -11,7 +11,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
-  const authCtx = useAuth();
   const { data: session, status } = useSession();
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
@@ -53,7 +52,7 @@ export default function Header() {
           {/* Desktop navigation */}
           <nav className="hidden md:flex md:grow">
             {/* Desktop sign in links */}
-            {authCtx.user.token_id && (
+            {session && (
               <ul className="pl-4 flex grow justify-between flex-wrap items-center">
                 <li>
                   <Link
