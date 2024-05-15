@@ -14,7 +14,7 @@ const ProductDescription = ({ product }: Props) => {
         <div className="pt-32 pb-12 md:pt-40 md:pb-20">
           {/* Page header */}
 
-          <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row space-y-8 md:space-x-8">
+          <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row md:space-x-8">
             <div className="">
               <Image
                 className="md:max-w-none mx-auto rounded"

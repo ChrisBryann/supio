@@ -41,7 +41,7 @@ const UpsertProductComponent = ({ product: _product, mode }: Props) => {
   };
 
   return (
-    <div className="mx-auto text-center pb-12 md:pb-20 grid md:grid-cols-2 space-y-8 md:space-x-8">
+    <div className="mx-auto text-center pb-12 md:pb-20 grid md:grid-cols-2 md:space-x-8">
       <div className="flex flex-col gap-2 justify-center">
         {product.image_url && (
           <Image

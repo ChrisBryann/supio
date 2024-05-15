@@ -93,7 +93,7 @@ const ProductsCarousel = ({options, products} : Props) => {
   }, [emblaApi, tweenScale, setTweenNodes, setTweenFactor]);
 
   return (
-    <div className="max-w-4xl mx-auto text-center pb-12 md:pb-20">
+    <div className="max-w-5xl mx-auto text-center pb-12 md:pb-20">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {products.map((product) => (
