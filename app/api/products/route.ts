@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import {
   addProduct,
   getProductById,
@@ -7,10 +8,12 @@ import {
 import { Product } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { productId: string } }
-) {
+export const GET = auth(async function GET(request, { params }) {
+  // if (!request.auth)
+  //   return NextResponse.json(
+  //     {},
+  //     { status: 500, statusText: "Not authenticated" }
+  //   );
   try {
     if (request.nextUrl.searchParams.has("id")) {
       // GET /api/products?id=[product_id]
@@ -65,9 +68,14 @@ export async function GET(
       { status: 500 }
     );
   }
-}
+});
 
-export async function POST(request: NextRequest) {
+export const POST = auth(async function POST(request) {
+  if (!request.auth)
+    return NextResponse.json(
+      {},
+      { status: 500, statusText: "Not authenticated" }
+    );
   try {
     const body = await request.json();
     if (body && body.product) {
@@ -92,9 +100,14 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
 
-export async function PATCH(request: NextRequest) {
+export const PATCH = auth(async function PATCH(request) {
+  if (!request.auth)
+    return NextResponse.json(
+      {},
+      { status: 500, statusText: "Not authenticated" }
+    );
   try {
     const body = await request.json();
     if (body && body.product) {
@@ -120,4 +133,4 @@ export async function PATCH(request: NextRequest) {
       { status: 500 }
     );
   }
-}
+});
