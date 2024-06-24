@@ -2,8 +2,6 @@ import ProductsCarousel from "@/components/products-carousel";
 import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 
-export const dynamic = 'force-dynamic';
-
 const ProductsPage = async () => {
   const response = await fetch(`${BASE_URL}/api/products`, {
     cache: "no-cache",

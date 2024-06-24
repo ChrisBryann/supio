@@ -9,7 +9,7 @@ export default function Footer() {
         {/* Top area: Blocks */}
         <div className="grid sm:grid-cols-12 gap-8 py-8 md:py-12 border-t border-gray-200 ">
           {/* 1st block */}
-          <div className="sm:col-span-12 lg:col-span-3">
+          <div className="sm:col-span-12 lg:col-span-4">
             <div className="mb-2">
               <Link href={"/"}>
                 <Image
@@ -36,6 +36,14 @@ export default function Footer() {
               >
                 Privacy Policy
               </a>
+            </div>
+            <div className="text-sm text-gray-600 pl-2">
+              <a
+                href="#0"
+                className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
+              >
+                © Copyright 2023 PT Mid Solusi Nusantara
+              </a>{" "}
             </div>
           </div>
 
@@ -181,7 +189,7 @@ export default function Footer() {
           </div> */}
 
           {/* 5th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-3">
+          <div className="sm:col-span-6 md:col-span-3 lg:col-span-4 pl-2 lg:pl-0">
             <h6 className="text-gray-800 font-medium mb-2">Subscribe</h6>
             <p className="text-sm text-gray-600 mb-4">
               Join our email list for exclusive offers and the latest news.

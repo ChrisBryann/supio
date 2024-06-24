@@ -3,8 +3,6 @@ import Products from "@/components/products";
 import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 
-export const dynamic = 'force-dynamic';
-
 export default async function Home() {
 
   const response = await fetch(

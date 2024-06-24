@@ -9,8 +9,6 @@ type Params = {
   };
 };
 
-export const dynamic = 'force-dynamic';
-
 const EditProduct = async ({ params }: Params) => {
   const response = await fetch(
     `${BASE_URL}/api/products?id=${params.product_id}`,
