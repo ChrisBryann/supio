@@ -42,7 +42,7 @@ export default function Footer() {
                 href="#0"
                 className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
               >
-                © Copyright 2023 PT Mid Solusi Nusantara
+                © Copyright 2024 PT. Supio Cosmetics Indonesia
               </a>{" "}
             </div>
           </div>
