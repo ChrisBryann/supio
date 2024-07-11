@@ -29,6 +29,7 @@ export default function Header() {
         !top ? "bg-white backdrop-blur-sm shadow-lg" : ""
       }`}
     >
+      <meta name="facebook-domain-verification" content="ygqa4w0f0kb092unqs1hcl9qgd5js9" />
       <div className="max-w-6xl mx-auto px-5 sm:px-6">
         <div className="flex items-center justify-between gap-x-2 h-16 md:h-20">
           {/* Site branding */}

@@ -38,12 +38,16 @@ export default function Footer() {
               </a>
             </div>
             <div className="text-sm text-gray-600 pl-2">
-              <a
-                href="#0"
-                className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
+              <p
+                className="text-gray-600"
               >
-                © Copyright 2024 PT. Supio Cosmetics Indonesia
-              </a>{" "}
+                © Copyright 2024
+                <br />
+                <br />
+                PT SUPIO COSMETICS
+                <br />
+                INDONESIA
+              </p>
             </div>
           </div>
 
