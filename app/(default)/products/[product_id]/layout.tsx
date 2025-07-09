@@ -10,7 +10,7 @@ type Props = {
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const product_id = await params;
+  const { product_id } = await params;
   const response = await fetch(`${BASE_URL}/api/products?id=${product_id}`, {
     cache: "no-cache",
   });

@@ -4,14 +4,15 @@ import { BASE_URL } from "@/utils/url";
 import { redirect } from "next/navigation";
 
 type Params = {
-  params: {
+  params: Promise<{
     product_id: string;
-  };
+  }>;
 };
 
 const ProductDescriptionPage = async ({ params }: Params) => {
+  const { product_id } = await params;
   const response = await fetch(
-    `${BASE_URL}/api/products?id=${params.product_id}`,
+    `${BASE_URL}/api/products?id=${product_id}`,
     {
       cache: "no-cache",
     }
