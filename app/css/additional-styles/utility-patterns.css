@@ -1,3 +1,5 @@
+@reference "tailwindcss";
+
 /* Typography */
 .h1 {
     @apply text-4xl font-extrabold leading-tight tracking-tighter;

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BrandLogo from "@/public/images/brand-logo.png";
+import BrandLogo from "@/public/images/supio-logo.png";
 import Link from "next/link";
 
 export default function Footer() {

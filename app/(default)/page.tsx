@@ -11,7 +11,6 @@ export default async function Home() {
       cache: "no-cache",
     }
   );
-  console.log(response);
   
 
   if (!response.ok) {

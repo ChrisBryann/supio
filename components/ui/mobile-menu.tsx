@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useAuth } from "@/store/AuthContext/_context";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "./button";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -75,33 +76,82 @@ export default function MobileMenu() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <ul className="px-5 py-2">
+          <ul className="px-5 py-2 space-y-8">
             <li>
               {session && (
-                <Link
-                  href={"/dashboard"}
-                  className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                  onClick={() => setMobileNavOpen(false)}
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
                 >
-                  Dashboard
-                </Link>
+                  <Link
+                    href={"/dashboard"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                </Button>
               )}
-
-              <p
-                className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                onClick={() => {
-                  setMobileNavOpen(false);
-                  session
-                  ? signOut({
-                    callbackUrl: "/",
-                  })
-                  : signIn("", {
-                      callbackUrl: "/dashboard",
-                    });
-                }}
-              >
-                {session ? "Sign out" : "Sign in"}
-              </p>
+              <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"#"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Home
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"#products"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Products
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"#"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Events
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"#"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Blog
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"#"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Partners
+                  </Link>
+                </Button>
             </li>
             {/* <li>
               <Link href="/signup" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 w-full my-2" onClick={() => setMobileNavOpen(false)}>
@@ -111,6 +161,23 @@ export default function MobileMenu() {
                 </svg>
               </Link>
             </li> */}
+            <li>
+            <Button
+                className="rounded-full flex font-medium mx-auto py-2"
+                onClick={() => {
+                  setMobileNavOpen(false);
+                  session
+                    ? signOut({
+                        callbackUrl: "/",
+                      })
+                    : signIn("", {
+                        callbackUrl: "/dashboard",
+                      });
+                }}
+              >
+                {session ? "Sign Out" : "Log In"}
+              </Button>
+            </li>
           </ul>
         </Transition>
       </div>

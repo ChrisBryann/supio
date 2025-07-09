@@ -27,3 +27,5 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     // description: product.main_description,
   };
 }
+
+export default function ProductDescriptionLayout() {}
