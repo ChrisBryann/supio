@@ -54,12 +54,11 @@ export default function Header() {
           <div className="hidden mx-auto md:flex items-center justify-center gap-x-2 grow">
             {/* Desktop sign in links */}
             {session && (
-              <Button asChild>
-                className="font-medium text-gray-900 hover:text-gray-600 px-5
-                py-3 transition duration-150 ease-in-out"{" "}
-                <Link href={"/dashboard"}>
-                  Dashboard
-                </Link>
+              <Button
+                asChild
+                className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+              >
+                <Link href={"/dashboard"}>Dashboard</Link>
               </Button>
             )}
             <Button
@@ -67,45 +66,35 @@ export default function Header() {
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"/"}>
-                Home
-              </Link>
+              <Link href={"/"}>Home</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>
-                Products
-              </Link>
+              <Link href={"#products"}>Products</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>
-                Events
-              </Link>
+              <Link href={"#products"}>Events</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>
-                Blog
-              </Link>
+              <Link href={"#products"}>Blog</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>
-                Partners
-              </Link>
+              <Link href={"#products"}>Partners</Link>
             </Button>
           </div>
 
