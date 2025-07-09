@@ -9,7 +9,7 @@ import MobileMenu from "./mobile-menu";
 import Image from "next/image";
 import { useAuth } from "@/store/AuthContext/_context";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "./button";
+import { Button } from "../utils/button";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);

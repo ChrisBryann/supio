@@ -204,7 +204,6 @@ export default function Products({ products }: Props) {
                         key={product.id}
                         show={tab === index}
                         appear={true}
-                        className="w-full"
                         enter="transition ease-in-out duration-700 transform order-first"
                         enterFrom="opacity-0 translate-y-16"
                         enterTo="opacity-100 translate-y-0"
@@ -214,7 +213,7 @@ export default function Products({ products }: Props) {
                         beforeEnter={() => heightFix()}
                         unmount={false}
                       >
-                        <div className="relative inline-flex flex-col">
+                        <div className="w-full relative inline-flex flex-col">
                           <Image
                             className="md:max-w-noneee mx-auto my-auto rounded"
                             src={product.image_url}

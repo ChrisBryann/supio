@@ -5,7 +5,7 @@ import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useAuth } from "@/store/AuthContext/_context";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "./button";
+import { Button } from "../utils/button";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
