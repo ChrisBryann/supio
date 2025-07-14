@@ -15,7 +15,7 @@ export default async function Home() {
 
   if (!response.ok) {
     // redirect 404 no connection?
-    console.log(response);
+    console.log(response.ok);
     return <></>;
   }
   const data = await response.json();

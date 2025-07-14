@@ -11,21 +11,30 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { product_id } = await params;
-  const response = await fetch(`${BASE_URL}/api/products?id=${product_id}`, {
-    cache: "no-cache",
-  });
-
-  if (!response.ok) {
-    redirect("/");
-  }
-
-  const data = await response.json();
-  if (!data || (data && !data.product)) redirect("/");
-  const product = data.product as Product;
+  try {
+    const response = await fetch(`${BASE_URL}/api/products?id=${product_id}`, {
+      cache: "no-cache",
+    });
+    if (!response.ok) {
+      redirect("/");
+    }
+    const data = await response.json();
+    if (!data || (data && !data.product)) redirect("/");
+    const product = data.product as Product;
+    return {
+      title: `SCI Aesthetics | ${product.name}`,
+      // description: product.main_description,
+    };
+  } catch (err) {}
   return {
-    title: `SCI Aesthetics | ${product.name}`,
-    // description: product.main_description,
+    title: "SCI Aesthetics | Product",
   };
 }
 
-export default function ProductDescriptionLayout() {}
+export default function ProductDescriptionLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <>{children}</>;
+}

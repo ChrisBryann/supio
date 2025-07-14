@@ -13,7 +13,7 @@ const DefaultError = ({
       data-aos="zoom-y-out"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-32 md:pt-40 pb-12 md:pb-20">
+        <div className="pt-24 md:pt-28 pb-12 md:pb-20">
           <div className="grid h-screen place-content-center bg-white px-4">
             <div className="text-center">
               {/* <h1 className="text-9xl font-black text-gray-200">{error.name}</h1> */}

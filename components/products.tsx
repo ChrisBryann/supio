@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
+import { AnimatePresence, motion } from "motion/react";
 
 type Props = {
   products: Product[];
@@ -198,33 +199,27 @@ export default function Products({ products }: Props) {
                   ref={tabs}
                 >
                   {/* Item 1 */}
-                  {products.map((product, index) => {
-                    return (
-                      <Transition
-                        key={product.id}
-                        show={tab === index}
-                        appear={true}
-                        enter="transition ease-in-out duration-700 transform order-first"
-                        enterFrom="opacity-0 translate-y-16"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in-out duration-300 transform absolute"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 -translate-y-16"
-                        beforeEnter={() => heightFix()}
-                        unmount={false}
+                  <AnimatePresence mode="wait">
+                    {products[tab] && (
+                      <motion.div
+                        key={products[tab].id}
+                        initial={{ opacity: 0, y: 64 }} // translate-y-16 = 4rem = 64px
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -64 }}
+                        transition={{ ease: "easeInOut", duration: 0.5 }}
+                        onAnimationStart={() => heightFix()}
+                        className={`w-full relative inline-flex flex-col`}
                       >
-                        <div className="w-full relative inline-flex flex-col">
-                          <Image
-                            className="md:max-w-noneee mx-auto my-auto rounded"
-                            src={product.image_url}
-                            width={450}
-                            height="480"
-                            alt={product.name}
-                          />
-                        </div>
-                      </Transition>
-                    );
-                  })}
+                        <Image
+                          className="md:max-w-noneee mx-auto my-auto rounded"
+                          src={products[tab].image_url}
+                          width={450}
+                          height="480"
+                          alt={products[tab].name}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>

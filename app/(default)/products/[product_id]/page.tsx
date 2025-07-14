@@ -11,21 +11,16 @@ type Params = {
 
 const ProductDescriptionPage = async ({ params }: Params) => {
   const { product_id } = await params;
-  const response = await fetch(
-    `${BASE_URL}/api/products?id=${product_id}`,
-    {
-      cache: "no-cache",
-    }
-  );
+  const response = await fetch(`${BASE_URL}/api/products?id=${product_id}`, {
+    cache: "no-cache",
+  });
   if (!response.ok) {
     redirect("/");
   }
 
   const data = await response.json();
   if (!data || (data && !data.product)) redirect("/");
-
   const product = data.product as Product;
-
   return <ProductDescription product={product} />;
 };
 

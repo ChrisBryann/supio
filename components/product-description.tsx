@@ -11,7 +11,7 @@ const ProductDescription = ({ product }: Props) => {
       data-aos="zoom-y-out"
     >
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-32 pb-12 md:pt-40 md:pb-20">
+        <div className="pt-24 pb-12 md:pt-28 md:pb-20">
           {/* Page header */}
 
           <div className="mx-auto text-center pb-12 md:pb-20 flex flex-col md:flex-row md:space-x-8">

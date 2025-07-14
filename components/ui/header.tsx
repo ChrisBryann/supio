@@ -9,7 +9,7 @@ import MobileMenu from "./mobile-menu";
 import Image from "next/image";
 import { useAuth } from "@/store/AuthContext/_context";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "../utils/button";
+import { Button } from "./button";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out ${
+      className={`sticky top-0 w-full z-30 md:bg-opacity-90 transition duration-300 ease-in-out ${
         !top ? "bg-white backdrop-blur-sm shadow-lg" : ""
       }`}
     >
@@ -51,12 +51,12 @@ export default function Header() {
           </div>
 
           {/* Site navigation links */}
-          <div className="hidden mx-auto md:flex items-center justify-center gap-x-2 grow">
+          <div className="hidden mx-auto lg:flex items-center justify-center gap-x-2 grow">
             {/* Desktop sign in links */}
             {session && (
               <Button
                 asChild
-                className="font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+                className="text-md font-medium px-5 py-3 transition duration-150 ease-in-out"
               >
                 <Link href={"/dashboard"}>Dashboard</Link>
               </Button>
@@ -80,21 +80,21 @@ export default function Header() {
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>Events</Link>
+              <Link href={"/events"}>Events</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>Blog</Link>
+              <Link href={"/blog"}>Blog</Link>
             </Button>
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>Partners</Link>
+              <Link href={"/partners"}>Partners</Link>
             </Button>
           </div>
 
@@ -112,7 +112,7 @@ export default function Header() {
                 </li>
               </ul>
             )} */}
-            <ul className="flex grow justify-end flex-wrap items-center">
+            <ul className="hidden lg:flex grow justify-end flex-wrap items-center">
               <li>
                 <Button
                   onClick={() => {
@@ -124,6 +124,7 @@ export default function Header() {
                           callbackUrl: "/dashboard",
                         });
                   }}
+                  variant={!!session ? "outline" : "default"}
                   className="rounded-full cursor-pointer"
                 >
                   {!!session ? "Sign Out" : "Log In"}

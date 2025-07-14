@@ -5,7 +5,7 @@ import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { useAuth } from "@/store/AuthContext/_context";
 import { signIn, signOut, useSession } from "next-auth/react";
-import { Button } from "../utils/button";
+import { Button } from "./button";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
@@ -41,7 +41,7 @@ export default function MobileMenu() {
   });
 
   return (
-    <div className="flex md:hidden">
+    <div className="flex lg:hidden">
       {/* Hamburger button */}
       <button
         ref={trigger}
