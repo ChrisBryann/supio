@@ -1,7 +1,7 @@
 import type { Editor } from "@tiptap/react";
 import { Toggle } from "./toggle";
 import { ImagePlus } from "lucide-react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
 type Props = {
   editor: Editor | null;

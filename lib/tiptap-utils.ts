@@ -161,6 +161,7 @@ export const handleImageUpload = async (
 
   // return "/images/placeholder-image.png"
 
+
   // Uncomment for production use:
   return convertFileToBase64(file, abortSignal);
 }

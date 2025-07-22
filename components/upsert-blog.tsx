@@ -1,41 +1,76 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import RichEditor from "./ui/rich-editor";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "./ui/form";
+import { useFieldArray, useForm } from "react-hook-form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "./ui/form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { LoaderCircle } from "lucide-react";
+import { BASE_URL } from "@/utils/url";
+import { Blog, EditorContentImage } from "@/types";
+import { useRouter } from "next/navigation";
+import { getContentImageUrlsById } from "@/services/blogs/blogs.service";
+import { BlogFormSchema, BlogPatchBody, BlogPostBody, TBlogFormSchema } from "@/app/api/blogs/route";
 
-const BlogFormSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  category: z.string().min(1, "Category is required"),
-  cover_image_url: z.url().min(1, "Cover Image URL is required"),
-  content: z.string().min(1, "Content is required"),
-});
+type AddProps = {
+  blog: null;
+  mode: "add";
+};
 
-type TBlogFormSchema = z.infer<typeof BlogFormSchema>;
+type EditProps = {
+  blog: Blog;
+  mode: "edit";
+};
 
-export default function UpsertBlogPage() {
+type Props = AddProps | EditProps;
+
+export default function UpsertBlogPage({ blog, mode }: Props) {
+  const router = useRouter();
   const [content, useContent] = useState<string>("");
+  const [contentImages, setContentImages] = useState<EditorContentImage[]>([]);
+  const [loadingContentImages, setLoadingContentImages] =
+    useState<boolean>(false);
   const form = useForm<TBlogFormSchema>({
     resolver: zodResolver(BlogFormSchema),
-    defaultValues: {
-      title: "",
-      category: "",
-      cover_image_url: "",
-      content: "",
-    },
+    defaultValues:
+      mode === "edit"
+        ? {
+            title: blog.title,
+            category: blog.category,
+            cover_image_url: blog.cover_image_url,
+            status: blog.status,
+            content: blog.content,
+          }
+        : {
+            title: "",
+            category: "",
+            cover_image_url: "",
+            status: "draft",
+            content: "",
+          },
   });
+
+  const onSubmitForm = async (values: TBlogFormSchema) => {
+    const body =
+      mode === "edit"
+        ? ({
+            ...values,
+            id: blog.id,
+            content_images: contentImages,
+          } as BlogPatchBody)
+        : ({
+            ...values,
+            content_images: contentImages,
+          } as BlogPostBody);
+    const response = await fetch(`${BASE_URL}/api/blogs`, {
+      method: mode == "edit" ? "PATCH" : "POST",
+      body: JSON.stringify(body),
+    });
+    const data: Blog = await response.json();
+    router.replace(`/blog/${mode === "edit" ? blog.id : data.id}`);
+  };
 
   const {
     handleSubmit,
@@ -43,12 +78,56 @@ export default function UpsertBlogPage() {
     formState: { isSubmitting },
   } = form;
 
+  useEffect(() => {
+    console.log("updated content_images:", contentImages);
+  }, [contentImages]);
+
+  const handleUploadImageNode = useCallback(
+    (name: string, url: string) => {
+      // append content_images array with the url
+      setContentImages((prev) => [
+        ...prev,
+        {
+          name,
+          url,
+          is_added: true, // just got added in editor
+        },
+      ]);
+    },
+    [setContentImages]
+  );
+
+  const handleDeleteImageNode = useCallback(
+    (url: string) => {
+      // filter out this url from content_images var
+      setContentImages((prev) => prev.filter((img) => img.url !== url));
+    },
+    [setContentImages]
+  );
+
+  useEffect(() => {
+    // when page just got loaded
+    if (mode === "edit" && blog) {
+      // load in the image urls from Firebase Storage for this blog entry into content_images
+      const getUrls = async () => {
+        setLoadingContentImages(true);
+        const contentImagesObj = await getContentImageUrlsById(blog.id);
+        setContentImages(contentImagesObj);
+        setLoadingContentImages(false);
+      };
+      getUrls();
+    }
+  }, []);
+
   return (
     <div className="mx-auto">
       <div className="flex flex-col space-y-8">
         <h1 className="text-3xl font-semibold mx-auto">Create a new post</h1>
         <Form {...form}>
-          <form className="space-y-4 rounded-lg w-3/4 mx-auto">
+          <form
+            onSubmit={handleSubmit(onSubmitForm)}
+            className="space-y-4 rounded-lg w-3/4 mx-auto"
+          >
             <FormField
               control={control}
               name="title"
@@ -125,7 +204,13 @@ export default function UpsertBlogPage() {
                     Content<span className="text-red-700">*</span>
                   </FormLabel>
                   <FormControl id="content">
-                    <RichEditor content={content} onChange={useContent} />
+                    <RichEditor
+                      content={content}
+                      onChange={useContent}
+                      isLoadingContentImages={loadingContentImages}
+                      handleDeleteImageNode={handleDeleteImageNode}
+                      handleUploadImageNode={handleUploadImageNode}
+                    />
                   </FormControl>
                 </FormItem>
               )}

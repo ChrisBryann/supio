@@ -56,7 +56,7 @@ export default function LinkPopover({ editor }: Props) {
       .setMeta("preventAutolink", true)
       .run();
     setUrl("");
-  }, [url]);
+  }, [editor]);
   if (!editor) return null;
   return (
     <Popover>

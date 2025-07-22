@@ -7,18 +7,19 @@ import { useRouter } from "next/navigation";
 import { BASE_URL } from "@/utils/url";
 
 type Props = {
-  product: Product;
+  product: Omit<Product, "createdBy">;
   mode: "add" | "edit";
 };
 
 const UpsertProductComponent = ({ product: _product, mode }: Props) => {
-  const [product, setProduct] = useState<Product>(_product);
+  const [product, setProduct] =
+    useState<Omit<Product, "createdBy">>(_product);
   const [saved, setSaved] = useState<boolean | null>(null);
   const [saving, setSaving] = useState<boolean>(false);
 
   const router = useRouter();
 
-  const onSave = async (product: Product) => {
+  const onSave = async (product: typeof _product) => {
     setSaving(true);
     const response = await fetch(`${BASE_URL}/api/products`, {
       method: mode === "edit" ? "PATCH" : "POST",
