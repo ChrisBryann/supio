@@ -78,20 +78,6 @@ export default function MobileMenu() {
         >
           <ul className="px-5 py-2 space-y-8">
             <li>
-              {session && (
-                <Button
-                  asChild
-                  variant={"link"}
-                  className="flex text-md font-medium mx-auto py-2"
-                >
-                  <Link
-                    href={"/dashboard"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Dashboard
-                  </Link>
-                </Button>
-              )}
               <Button
                   asChild
                   variant={"link"}
@@ -161,23 +147,6 @@ export default function MobileMenu() {
                 </svg>
               </Link>
             </li> */}
-            <li>
-            <Button
-                className="rounded-full flex font-medium mx-auto py-2"
-                onClick={() => {
-                  setMobileNavOpen(false);
-                  session
-                    ? signOut({
-                        callbackUrl: "/",
-                      })
-                    : signIn("", {
-                        callbackUrl: "/dashboard",
-                      });
-                }}
-              >
-                {session ? "Sign Out" : "Log In"}
-              </Button>
-            </li>
           </ul>
         </Transition>
       </div>

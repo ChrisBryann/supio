@@ -1,4 +1,5 @@
-import BlogSkeleton from "@/components/skeletons/blog";
+
+import { BlogSkeleton } from "@/components/skeletons";
 import { Suspense } from "react";
 
 export default function BlogLayout({

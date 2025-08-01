@@ -30,32 +30,33 @@ export default function BlogPage({ blogs }: Props) {
         <Toggle variant={"outline"}>News</Toggle>
         <Toggle variant={"outline"}>Trending</Toggle>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 ">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {blogs.map((blog, index) => {
           return (
             <Card key={blog.id}>
-              <div className="aspect-16/9 w-full">
-                <Link href={`/blog/${blog.id}`}>
+              <div className="relative aspect-16/9 h-[200px] w-full">
+                <Link href={`/blogs/${blog.id}`}>
                   <Image
-                    className="h-52 w-full rounded-t object-cover object-center"
-                    src={blog.cover_image_url}
-                    width={400}
-                    height={200}
+                    className="rounded-t object-cover object-center"
+                    src={blog.blog_image.url}
+                    // width={400}
+                    // height={200}
+                    fill
                     alt="brand_logo"
                   />
                 </Link>
               </div>
 
-              <CardHeader className="flex-col gap-1 items-start">
+              <CardHeader className="flex-col items-start">
                 <CardDescription>
-                  <Badge>{blog.category}</Badge>
+                  <Badge>{blog.tags}</Badge>
                 </CardDescription>
 
                 <CardTitle className="text-lg md:text-xl font-semibold hover:underline">
-                  <Link href={`/blog/${blog.id}`}>{blog.title}</Link>
+                  <Link href={`/blogs/${blog.id}`}>{blog.title}</Link>
                 </CardTitle>
                 <CardDescription>
-                  {blog.published_at.toLocaleDateString()}
+                  {new Date(blog.updatedAt).toLocaleDateString()}
                 </CardDescription>
               </CardHeader>
               <CardFooter>

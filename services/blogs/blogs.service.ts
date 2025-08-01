@@ -1,6 +1,6 @@
 import { BlogPatchBody, BlogPostBody } from "@/app/api/blogs/route";
 import { db, storage } from "@/firebase.config";
-import { Blog, EditorContentImage } from "@/types";
+import { Blog } from "@/types";
 import {
   addDoc,
   collection,
@@ -176,24 +176,24 @@ export const updateBlog = async ({
   } as Blog
 };
 
-export const getContentImageUrlsById = async (
-  id: string
-): Promise<EditorContentImage[]> => {
-  // get all content image URLs from the blog entry ID
-  const contentImageFolderRef = await ref(storage, `blogs/${id}`);
-  try {
-    const contentImages = await listAll(contentImageFolderRef);
-    const contentImageUrls: EditorContentImage[] = await Promise.all(
-      contentImages.items.map(async (imageRef) => ({
-        name: imageRef.name,
-        url: await getDownloadURL(imageRef),
-        is_added: false, // it is not newly to editor because this image exist already in content
-      }))
-    );
+// export const getContentImageUrlsById = async (
+//   id: string
+// ): Promise<EditorContentImage[]> => {
+//   // get all content image URLs from the blog entry ID
+//   const contentImageFolderRef = await ref(storage, `blogs/${id}`);
+//   try {
+//     const contentImages = await listAll(contentImageFolderRef);
+//     const contentImageUrls: EditorContentImage[] = await Promise.all(
+//       contentImages.items.map(async (imageRef) => ({
+//         name: imageRef.name,
+//         url: await getDownloadURL(imageRef),
+//         is_added: false, // it is not newly to editor because this image exist already in content
+//       }))
+//     );
 
-    return contentImageUrls;
-  } catch (err) {
-    console.error("getContentImageUrlsById - Error:", err);
-    return [];
-  }
-};
+//     return contentImageUrls;
+//   } catch (err) {
+//     console.error("getContentImageUrlsById - Error:", err);
+//     return [];
+//   }
+// };

@@ -13,7 +13,6 @@ import { Button } from "./button";
 
 export default function Header() {
   const [top, setTop] = useState<boolean>(true);
-  const { data: session, status } = useSession();
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
@@ -53,14 +52,6 @@ export default function Header() {
           {/* Site navigation links */}
           <div className="hidden mx-auto lg:flex items-center justify-center gap-x-2 grow">
             {/* Desktop sign in links */}
-            {session && (
-              <Button
-                asChild
-                className="text-md font-medium px-5 py-3 transition duration-150 ease-in-out"
-              >
-                <Link href={"/dashboard"}>Dashboard</Link>
-              </Button>
-            )}
             <Button
               asChild
               variant={"link"}
@@ -87,7 +78,7 @@ export default function Header() {
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"/blog"}>Blog</Link>
+              <Link href={"/blogs"}>Blog</Link>
             </Button>
             <Button
               asChild
@@ -112,43 +103,6 @@ export default function Header() {
                 </li>
               </ul>
             )} */}
-            <ul className="hidden lg:flex grow justify-end flex-wrap items-center">
-              <li>
-                <Button
-                  onClick={() => {
-                    !!session
-                      ? signOut({
-                          callbackUrl: "/",
-                        })
-                      : signIn("", {
-                          callbackUrl: "/dashboard",
-                        });
-                  }}
-                  variant={!!session ? "outline" : "default"}
-                  className="rounded-full cursor-pointer"
-                >
-                  {!!session ? "Sign Out" : "Log In"}
-                </Button>
-              </li>
-              {/* <li>
-                <Link
-                  href="/signup"
-                  className="btn-sm text-gray-200 bg-gray-600 hover:bg-gray-800 ml-3"
-                >
-                  <span>Sign up</span>
-                  <svg
-                    className="w-3 h-3 fill-current text-gray-400 shrink-0 ml-2 -mr-1"
-                    viewBox="0 0 12 12"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z"
-                      fillRule="nonzero"
-                    />
-                  </svg>
-                </Link>
-              </li> */}
-            </ul>
           </nav>
 
           <MobileMenu />

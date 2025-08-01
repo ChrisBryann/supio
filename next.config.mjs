@@ -11,7 +11,13 @@ const nextConfig = {
         protocol: "https",
         hostname: "picsum.photos",
       },
+      {
+        protocol: 'https',
+        hostname: process.env.NEXT_PUBLIC_BACKEND_URL,
+      }
     ],
+    loader: 'custom',
+    loaderFile: './utils/image-loader.ts'
   },
 };
 
