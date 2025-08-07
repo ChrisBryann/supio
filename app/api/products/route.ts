@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import {
   addProduct,
   getProductById,
@@ -8,7 +7,7 @@ import {
 import { Product } from "@/types";
 import { NextRequest, NextResponse } from "next/server";
 
-export const GET = auth(async function GET(request, { params }) {
+export const GET = async function GET(request: NextRequest) {
   // if (!request.auth)
   //   return NextResponse.json(
   //     {},
@@ -68,69 +67,4 @@ export const GET = auth(async function GET(request, { params }) {
       { status: 500 }
     );
   }
-});
-
-export const POST = auth(async function POST(request) {
-  if (!request.auth)
-    return NextResponse.json(
-      {},
-      { status: 500, statusText: "Not authenticated" }
-    );
-  try {
-    const body = await request.json();
-    if (body && body.product) {
-      // POST /api/products BODY {product: Product}
-      await addProduct(body.product as Product);
-      return NextResponse.json(
-        {},
-        {
-          status: 200,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  } catch (err) {
-    return NextResponse.json(
-      {
-        error: `Error: ${err}`,
-      },
-      { status: 500 }
-    );
-  }
-});
-
-export const PATCH = auth(async function PATCH(request) {
-  if (!request.auth)
-    return NextResponse.json(
-      {},
-      { status: 500, statusText: "Not authenticated" }
-    );
-  try {
-    const body = await request.json();
-    if (body && body.product) {
-      // PATCH /api/products BODY {product: Product}
-      await updateProduct(body.product as Product);
-
-      return NextResponse.json(
-        {},
-        {
-          status: 200,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-        }
-      );
-    }
-  } catch (err) {
-    return NextResponse.json(
-      {
-        error: `Error: ${err}`,
-      },
-      { status: 500 }
-    );
-  }
-});
+}

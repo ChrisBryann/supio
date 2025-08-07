@@ -23,13 +23,13 @@ export default function BlogPage({ blogs }: Props) {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold">Explore Our Blog</h1>
       </div>
-      <div className="flex flex-row gap-2 left-0">
+      {/* <div className="flex flex-row gap-2 left-0">
         <Toggle variant={"outline"}>All</Toggle>
         <Toggle variant={"outline"}>Research</Toggle>
         <Toggle variant={"outline"}>Study Case</Toggle>
         <Toggle variant={"outline"}>News</Toggle>
         <Toggle variant={"outline"}>Trending</Toggle>
-      </div>
+      </div> */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {blogs.map((blog, index) => {
           return (

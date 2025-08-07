@@ -3,8 +3,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useAuth } from "@/store/AuthContext/_context";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "./button";
 
 export default function MobileMenu() {
@@ -12,7 +10,6 @@ export default function MobileMenu() {
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
-  const { data: session, status } = useSession();
 
   // close the mobile menu on click outside
   useEffect(() => {

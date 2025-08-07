@@ -7,8 +7,6 @@ import BrandLogo from "@/public/images/supio-logo.png";
 import SCILogo from "@/public/images/sci-logo.png";
 import MobileMenu from "./mobile-menu";
 import Image from "next/image";
-import { useAuth } from "@/store/AuthContext/_context";
-import { signIn, signOut, useSession } from "next-auth/react";
 import { Button } from "./button";
 
 export default function Header() {
@@ -90,21 +88,6 @@ export default function Header() {
           </div>
 
           {/* Desktop navigation */}
-          <nav className="hidden md:flex max-w-48 grow">
-            {/* {session && (
-              <ul className="pl-4 flex grow justify-between flex-wrap items-center">
-                <li>
-                 className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"  <Link
-                    href={"/dashboard"}
-                  
-                  >
-                    Dashboard
-                  </Link>
-                </li>
-              </ul>
-            )} */}
-          </nav>
-
           <MobileMenu />
         </div>
       </div>
