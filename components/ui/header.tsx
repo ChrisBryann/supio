@@ -64,21 +64,21 @@ export default function Header() {
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"#products"}>Products</Link>
+              <Link href={"/products"}>Products</Link>
             </Button>
-            <Button
+            {/* <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
               <Link href={"/events"}>Events</Link>
-            </Button>
+            </Button> */}
             <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
-              <Link href={"/blogs"}>Blog</Link>
+              <Link href={"/blogs"}>Blogs</Link>
             </Button>
             <Button
               asChild

@@ -34,7 +34,7 @@ export default function BlogPage({ blogs }: Props) {
         {blogs.map((blog, index) => {
           return (
             <Card key={blog.id}>
-              <div className="relative aspect-16/9 h-[200px] w-full">
+              <div className="relative h-[200px] w-full">
                 <Link href={`/blogs/${blog.id}`}>
                   <Image
                     className="rounded-t object-cover object-center"
@@ -42,7 +42,7 @@ export default function BlogPage({ blogs }: Props) {
                     // width={400}
                     // height={200}
                     fill
-                    alt="brand_logo"
+                    alt={blog.blog_image.alt}
                   />
                 </Link>
               </div>

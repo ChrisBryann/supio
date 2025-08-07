@@ -12,17 +12,10 @@ import type {
   SerializedUploadNode,
 } from "@payloadcms/richtext-lexical";
 import Image from "next/image";
-import { Merriweather } from "next/font/google";
 
 type Props = {
   richContent: SerializedEditorState;
 } & React.HTMLAttributes<HTMLDivElement>;
-
-// const merriweather = Merriweather({
-//   weight: "400",
-//   style: "normal",
-//   subsets: ["latin"],
-// });
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { relationTo, value } = linkNode.fields.doc!;
@@ -48,7 +41,6 @@ const headingConverter: JSXConverter<SerializedHeadingNode> = ({
   nodesToJSX,
 }) => {
   const text = nodesToJSX({ nodes: node.children });
-  console.log(text);
   const Tag = node.tag;
   let fontSize = "text-xl";
   switch (node.tag) {
@@ -91,16 +83,17 @@ const uploadConverter: JSXConverter<SerializedUploadNode> = ({ node }) => {
       return null;
     }
 
-    const { url, alt, height, width, id } = uploadDoc;
+    const { url, alt, id } = uploadDoc;
 
     return (
       <Image
         key={id}
         src={url}
         alt={alt}
-        width={width}
-        height={height}
-        className="mx-auto"
+        width={0}
+        height={0}
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        className="mx-auto w-full md:w-3/4"
       />
     );
   }
@@ -119,7 +112,7 @@ export default function RichText({ richContent, className, ...rest }: Props) {
       converters={jsxConverters}
       {...rest}
       data={richContent}
-      className={`${className ?? ""} prose prose-sm sm:prose-base md:prose-md prose-ol:list-decimal prose-ul:list-disc`}
+      className={`${className ?? ""} w-full prose prose-sm sm:prose-base md:prose-md prose-ol:list-decimal prose-ul:list-disc`}
     />
   );
 }

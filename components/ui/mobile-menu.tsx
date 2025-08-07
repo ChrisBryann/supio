@@ -96,34 +96,34 @@ export default function MobileMenu() {
                   className="flex text-md font-medium mx-auto py-2"
                 >
                   <Link
-                    href={"#products"}
+                    href={"/products"}
                     onClick={() => setMobileNavOpen(false)}
                   >
                     Products
                   </Link>
                 </Button>
-                <Button
+                {/* <Button
                   asChild
                   variant={"link"}
                   className="flex text-md font-medium mx-auto py-2"
                 >
                   <Link
-                    href={"#"}
+                    href={"/events"}
                     onClick={() => setMobileNavOpen(false)}
                   >
                     Events
                   </Link>
-                </Button>
+                </Button> */}
                 <Button
                   asChild
                   variant={"link"}
                   className="flex text-md font-medium mx-auto py-2"
                 >
                   <Link
-                    href={"#"}
+                    href={"/blogs"}
                     onClick={() => setMobileNavOpen(false)}
                   >
-                    Blog
+                    Blogs
                   </Link>
                 </Button>
                 <Button
@@ -132,7 +132,7 @@ export default function MobileMenu() {
                   className="flex text-md font-medium mx-auto py-2"
                 >
                   <Link
-                    href={"#"}
+                    href={"/partners"}
                     onClick={() => setMobileNavOpen(false)}
                   >
                     Partners

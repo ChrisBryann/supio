@@ -14,7 +14,6 @@ export default async function Blogs() {
     console.error(data);
     return null;
   }
-  console.log(data)
   const blogs: Blog[] = data.docs;
   // const blogs: Blog[] | any = [
   //   {
