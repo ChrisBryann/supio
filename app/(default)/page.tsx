@@ -1,9 +1,8 @@
 import Hero from "@/components/hero";
 import Products from "@/components/products";
 import { Product } from "@/types";
-import { BASE_URL } from "@/utils/url";
 
-export const revalidate = 24 * 60 * 60; // revalidate every day
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   const response = await fetch(

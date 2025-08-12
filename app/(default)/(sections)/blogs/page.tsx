@@ -1,7 +1,7 @@
 import BlogPage from "@/components/blog";
 import { Blog } from "@/types";
 
-export const revalidate = 24 * 60 * 60 // every day
+export const revalidate = 86400;
 
 export default async function Blogs() {
   const response = await fetch(

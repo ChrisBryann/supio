@@ -1,7 +1,7 @@
 import ProductPage from "@/components/product";
 import { Product } from "@/types";
 
-export const revalidate = 24 * 60 * 60 // every day
+export const revalidate = 86400;
 
 const ProductsPage = async () => {
   const response = await fetch(

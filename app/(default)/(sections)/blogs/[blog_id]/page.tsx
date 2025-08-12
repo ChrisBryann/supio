@@ -8,7 +8,7 @@ type Props = {
   }>;
 };
 
-export const revalidate = 24 * 60 * 60; // every day
+export const revalidate = 86400;
 
 export async function generateStaticParams() {
   const response = await fetch(
@@ -36,9 +36,6 @@ export default async function BlogDescription({ params }: Props) {
       cache: "no-store",
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
-      },
-      next: {
-        revalidate: 300,
       },
     }
   );
