@@ -1,6 +1,7 @@
 import BlogDescriptionPage from "@/components/blog-description";
 import { BlogDescriptionSkeleton } from "@/components/skeletons";
 import { Blog } from "@/types";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{
@@ -41,7 +42,7 @@ export default async function BlogDescription({ params }: Props) {
   );
   const blog: Blog = await response.json();
   if (!response.ok) {
-    return null;
+    return notFound();
   }
 
   return <BlogDescriptionPage blog={blog} />;

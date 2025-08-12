@@ -1,5 +1,6 @@
 import BlogPage from "@/components/blog";
 import { Blog } from "@/types";
+import { notFound } from "next/navigation";
 
 export const revalidate = 86400;
 
@@ -14,8 +15,8 @@ export default async function Blogs() {
   );
   const data: any = await response.json();
   if (!response.ok) {
-    console.error(data);
-    return null;
+    
+    notFound();
   }
   const blogs: Blog[] = data.docs;
   //   {

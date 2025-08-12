@@ -32,64 +32,59 @@ export default function Header() {
         name="facebook-domain-verification"
         content="ygqa4w0f0kb092unqs1hcl9qgd5js9"
       /> */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-6">
-        <div className="flex items-center justify-between gap-x-2 h-20">
-          {/* Site branding */}
-          <div className="flex flex-col items-center max-w-48 shrink-0 grow">
-            <Link href="/">
-              <Image
-                className="max-w-none mx-auto rounded hover:cursor-pointer"
-                src={BrandLogo}
-                width={200}
-                height={200}
-                alt="brand_logo"
-              />
-            </Link>
-          </div>
+      <div className="flex items-center justify-between lg:justify-start gap-x-4 h-20 px-5 lg:px-16">
+        {/* Site branding */}
+        <Link href="/">
+          <Image
+            className="max-w-none mx-auto rounded hover:cursor-pointer"
+            src={BrandLogo}
+            width={200}
+            height={200}
+            alt="brand_logo"
+          />
+        </Link>
 
-          {/* Site navigation links */}
-          <div className="hidden mx-auto lg:flex items-center justify-center gap-x-2 grow">
-            {/* Desktop sign in links */}
-            <Button
-              asChild
-              variant={"link"}
-              className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
-            >
-              <Link href={"/"}>Home</Link>
-            </Button>
-            <Button
-              asChild
-              variant={"link"}
-              className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
-            >
-              <Link href={"/products"}>Products</Link>
-            </Button>
-            {/* <Button
+        {/* Site navigation links */}
+        <div className="hidden lg:flex gap-x-2">
+          {/* Desktop sign in links */}
+          <Button
+            asChild
+            variant={"link"}
+            className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+          >
+            <Link href={"/"}>Home</Link>
+          </Button>
+          <Button
+            asChild
+            variant={"link"}
+            className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+          >
+            <Link href={"/products"}>Products</Link>
+          </Button>
+          {/* <Button
               asChild
               variant={"link"}
               className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
             >
               <Link href={"/events"}>Events</Link>
             </Button> */}
-            <Button
-              asChild
-              variant={"link"}
-              className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
-            >
-              <Link href={"/blogs"}>Blogs</Link>
-            </Button>
-            <Button
-              asChild
-              variant={"link"}
-              className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
-            >
-              <Link href={"/partners"}>Partners</Link>
-            </Button>
-          </div>
-
-          {/* Desktop navigation */}
-          <MobileMenu />
+          <Button
+            asChild
+            variant={"link"}
+            className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+          >
+            <Link href={"/blogs"}>Blogs</Link>
+          </Button>
+          <Button
+            asChild
+            variant={"link"}
+            className="text-md font-medium text-gray-900 hover:text-gray-600 px-5 py-3 transition duration-150 ease-in-out"
+          >
+            <Link href={"/partners"}>Partners</Link>
+          </Button>
         </div>
+        {/* Desktop navigation */}
+        <MobileMenu />
       </div>
     </header>
   );

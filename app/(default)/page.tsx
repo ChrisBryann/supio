@@ -1,6 +1,7 @@
 import Hero from "@/components/hero";
 import Products from "@/components/products";
 import { Product } from "@/types";
+import { notFound } from "next/navigation";
 
 export const revalidate = 86400;
 
@@ -34,8 +35,7 @@ export default async function Home() {
 
   if (!response.ok) {
     // redirect 404 no connection?
-    console.log(response.ok);
-    return null;
+    notFound();
   }
   const data = await response.json();
   // if (!data || (data && !data.products)) return <></>;

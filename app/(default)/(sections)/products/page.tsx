@@ -1,5 +1,6 @@
 import ProductPage from "@/components/product";
 import { Product } from "@/types";
+import { notFound } from "next/navigation";
 
 export const revalidate = 86400;
 
@@ -15,7 +16,7 @@ const ProductsPage = async () => {
 
   if (!response.ok) {
     // redirect 404 no connection?
-    return null;
+    notFound();
   }
   const data = await response.json();
   const products: Product[] = data.docs;
