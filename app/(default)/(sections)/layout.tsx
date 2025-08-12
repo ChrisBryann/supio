@@ -13,7 +13,7 @@ export default function BlogLayout({
         <div className="py-8">
           {/* Page header */}
           <div className="pb-12 md:pb-20">
-            <Suspense fallback={<BlogSkeleton />}>{children}</Suspense>
+            {children}
           </div>
         </div>
       </div>

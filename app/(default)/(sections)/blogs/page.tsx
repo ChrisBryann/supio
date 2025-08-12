@@ -1,21 +1,23 @@
 import BlogPage from "@/components/blog";
 import { Blog } from "@/types";
+
+export const revalidate = 24 * 60 * 60 // every day
+
 export default async function Blogs() {
   const response = await fetch(
     `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs`,
     {
-      next: {
-        revalidate: 300,
-      }
+      headers: {
+        "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
+      },
     }
   );
   const data: any = await response.json();
-  if(!response.ok) {
+  if (!response.ok) {
     console.error(data);
     return null;
   }
   const blogs: Blog[] = data.docs;
-  // const blogs: Blog[] | any = [
   //   {
   //     id: "aad1813a-4ec7-4f22-bb00-ba06a4b0b8e2",
 

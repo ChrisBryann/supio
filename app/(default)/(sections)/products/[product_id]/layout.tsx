@@ -1,7 +1,9 @@
+import { ProductDescriptionSkeleton } from "@/components/skeletons";
 import { Product } from "@/types";
 import { BASE_URL } from "@/utils/url";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{
@@ -12,18 +14,22 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { product_id } = await params;
   try {
-    const response = await fetch(`${BASE_URL}/api/products?id=${product_id}`, {
-      cache: "no-cache",
-    });
+    const response = await fetch(
+      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${product_id}?select[name]=true&select[main_description]=true`,
+      {
+        headers: {
+          "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
+        },
+      }
+    );
     if (!response.ok) {
       redirect("/");
     }
-    const data = await response.json();
-    if (!data || (data && !data.product)) redirect("/");
-    const product = data.product as Product;
+
+    const product: Product = await response.json();
     return {
       title: `SCI Aesthetics | ${product.name}`,
-      // description: product.main_description,
+      description: product.main_description,
     };
   } catch (err) {}
   return {
@@ -36,5 +42,7 @@ export default function ProductDescriptionLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return (
+    <Suspense fallback={<ProductDescriptionSkeleton />}>{children}</Suspense>
+  );
 }

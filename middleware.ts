@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 import { Product } from "./types";
 import { cookies } from "next/headers";
 import NextAuth from "next-auth";
-import authConfig from "./auth.config";
 
 // async function getProductById(productId: string, origin: string) {
 //   try {
@@ -72,15 +71,15 @@ import authConfig from "./auth.config";
 //   return NextResponse.next();
 // }
 
-const { auth } = NextAuth(authConfig);
+// const { auth } = NextAuth(authConfig);
 
-export default auth((req) => {
-  if (!req.auth) {
-    const url = new URL("api/auth/signin", req.nextUrl.origin);
-    url.searchParams.append("callbackUrl", req.nextUrl.href);
-    return Response.redirect(url);
-  }
-});
+// export default auth((req) => {
+//   if (!req.auth) {
+//     const url = new URL("api/auth/signin", req.nextUrl.origin);
+//     url.searchParams.append("callbackUrl", req.nextUrl.href);
+//     return Response.redirect(url);
+//   }
+// });
 
 export const config = {
   matcher: ["/products/add/:path", "/products/:path/edit", "/dashboard/:path*"],

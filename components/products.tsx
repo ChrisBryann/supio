@@ -211,11 +211,11 @@ export default function Products({ products }: Props) {
                         className={`w-full relative inline-flex flex-col`}
                       >
                         <Image
-                          className="md:max-w-noneee mx-auto my-auto rounded"
-                          src={products[tab].image_url}
+                          className="md:max-w-none mx-auto my-auto rounded"
+                          src={products[tab].product_image.url}
                           width={450}
                           height="480"
-                          alt={products[tab].name}
+                          alt={products[tab].product_image.alt}
                         />
                       </motion.div>
                     )}

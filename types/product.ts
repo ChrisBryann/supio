@@ -1,11 +1,11 @@
 import { User } from "next-auth";
+import { ImageUpload } from "./general";
 
 export interface Product {
     id: string;
     name: string;
     main_description: string;
     additional_description?: string;
-    image_url: string;
-    createdBy: User
+    product_image: ImageUpload;
   }
   

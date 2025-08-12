@@ -1,4 +1,3 @@
-import { BentoGrid, BentoGridLinkItem } from "./ui/bento-grid";
 import Image from "next/image";
 import { Blog } from "@/types";
 import { Badge } from "./ui/badge";
@@ -20,9 +19,7 @@ type Props = {
 export default function BlogPage({ blogs }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold">Explore Our Blog</h1>
-      </div>
+      <h1 className="text-3xl font-bold">Explore Our Blog</h1>
       {/* <div className="flex flex-row gap-2 left-0">
         <Toggle variant={"outline"}>All</Toggle>
         <Toggle variant={"outline"}>Research</Toggle>
