@@ -1,5 +1,4 @@
 import BlogDescriptionPage from "@/components/blog-description";
-import { BlogDescriptionSkeleton } from "@/components/skeletons";
 import { Blog } from "@/types";
 import { notFound } from "next/navigation";
 
@@ -20,11 +19,11 @@ export async function generateStaticParams() {
       },
     }
   );
-  const data: any = await response.json();
+  
   if (!response.ok) {
-    console.error(data);
     return [];
   }
+  const data: any = await response.json();
   const blogs: Blog[] = data.docs;
   return blogs;
 }

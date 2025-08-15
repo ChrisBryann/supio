@@ -1,6 +1,5 @@
 import { ProductDescriptionSkeleton } from "@/components/skeletons";
 import { Product } from "@/types";
-import { BASE_URL } from "@/utils/url";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";

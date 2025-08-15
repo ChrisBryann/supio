@@ -3,7 +3,7 @@ import { Partner } from "@/types";
 import { Separator } from "./ui/separator";
 import { ComboBox } from "./ui/combobox";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import Image from "next/image";
 import {
   Pagination,
@@ -13,7 +13,7 @@ import {
   PaginationPrevious,
 } from "./ui/pagination";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Search } from "lucide-react";
+import { LoaderCircle, Search } from "lucide-react";
 
 type Props = {
   partners: Partner[];
@@ -28,6 +28,8 @@ export default function PartnerPage({ partners, pageCount }: Props) {
   const [open, setOpen] = useState(false);
   const [location, setLocation] = useState("");
 
+  const [isPending, setIsPending] = useTransition();
+
   const handlePartnerSearchURL = (query: string) => {
     const params = new URLSearchParams(searchParams);
     if (query) {
@@ -35,7 +37,9 @@ export default function PartnerPage({ partners, pageCount }: Props) {
     } else {
       params.delete("query");
     }
-    replace(`${pathname}?${params.toString()}`);
+    setIsPending(() => {
+      replace(`${pathname}?${params.toString()}`);
+    });
   };
 
   const createPartnerPageURL = (pageNumber: number | string) => {
@@ -77,7 +81,7 @@ export default function PartnerPage({ partners, pageCount }: Props) {
         </div>
         <div className="w-full flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">
-            <Search className="size-5" />
+            {isPending ? <LoaderCircle className="size-5 animate-spin"/> : <Search className="size-5" />}
             <Input
               placeholder="Search by name"
               onChange={(e) => {

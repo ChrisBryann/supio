@@ -16,7 +16,7 @@ export default async function Partners({
     `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/partners?limit=9&page=${page}&where[name][contains]=${query}`,
     {
       headers: {
-        "x-frontend-secret": process.env.PAYLOAD_SHARED_FRONTEND_SECRET || "",
+        "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
       },
     }
   );

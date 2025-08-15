@@ -28,7 +28,7 @@ export default function BlogPage({ blogs }: Props) {
         <Toggle variant={"outline"}>Trending</Toggle>
       </div> */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {blogs.map((blog, index) => {
+        {blogs.map((blog) => {
           return (
             <Card key={blog.id}>
               <div className="relative h-[200px] w-full">
@@ -58,7 +58,7 @@ export default function BlogPage({ blogs }: Props) {
               </CardHeader>
               <CardFooter>
                 <Button className="px-0" variant={"link"} asChild>
-                  <Link href={`/blog/${blog.id}`}>Read more →</Link>
+                  <Link href={`/blogs/${blog.id}`}>Read more →</Link>
                 </Button>
               </CardFooter>
             </Card>
