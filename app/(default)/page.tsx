@@ -7,7 +7,7 @@ export const revalidate = 86400;
 
 export default async function Home() {
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products`,
+    `https://${process.env.BACKEND_URL}/api/products`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",

@@ -13,7 +13,7 @@ export default async function Partners({
   const page: number = +(params.page || 1);
   const query: string = params.query || "";
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/partners?limit=9&page=${page}&where[name][contains]=${query}`,
+    `https://${process.env.BACKEND_URL}/api/partners?limit=9&page=${page}&where[name][contains]=${query}`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",

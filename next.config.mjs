@@ -13,7 +13,7 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: process.env.NEXT_PUBLIC_BACKEND_URL,
+        hostname: process.env.BACKEND_URL,
       }
     ],
     // loader: 'custom',

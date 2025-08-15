@@ -13,7 +13,7 @@ export const revalidate = 86400;
 
 export async function generateStaticParams() {
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products?select[id]=true`,
+    `https://${process.env.BACKEND_URL}/api/products?select[id]=true`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
 const ProductDescriptionPage = async ({ params }: Params) => {
   const { id } = await params;
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${id}`,
+    `https://${process.env.BACKEND_URL}/api/products/${id}`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",

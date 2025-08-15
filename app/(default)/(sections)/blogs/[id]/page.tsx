@@ -12,7 +12,7 @@ export const revalidate = 86400;
 
 export async function generateStaticParams() {
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs?select[id]=true`,
+    `https://${process.env.BACKEND_URL}/api/blogs?select[id]=true`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
@@ -31,7 +31,7 @@ export async function generateStaticParams() {
 export default async function BlogDescription({ params }: Props) {
   const { id } = await params;
   const response = await fetch(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${id}`,
+    `http://${process.env.BACKEND_URL}/api/blogs/${id}`,
     {
       cache: "no-store",
       headers: {
