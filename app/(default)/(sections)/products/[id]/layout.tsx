@@ -7,15 +7,15 @@ import { Suspense } from "react";
 
 type Props = {
   params: Promise<{
-    product_id: string;
+    id: string;
   }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { product_id } = await params;
+  const { id } = await params;
   try {
     const response = await fetch(
-      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${product_id}?select[name]=true&select[main_description]=true`,
+      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${id}?select[name]=true&select[main_description]=true`,
       {
         headers: {
           "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const product: Product = await response.json();
     return {
-      title: `SCI Aesthetics | ${product.name}`,
+      title: `${product.name}`,
       description: product.main_description,
     };
   } catch (err) {}
   return {
-    title: "SCI Aesthetics | Product",
+    title: "Product",
   };
 }
 

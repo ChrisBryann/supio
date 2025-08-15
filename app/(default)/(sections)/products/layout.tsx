@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "SCI Aesthetics | Products",
+  title: "Products",
   description:
     "Explore SCI Aesthetics’ selection of advanced regenerative skincare solutions in Indonesia, featuring premium treatments for youthful, healthy skin.",
 };

@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{
-    blog_id: string;
+    id: string;
   }>;
 };
 
@@ -30,9 +30,9 @@ export async function generateStaticParams() {
 }
 
 export default async function BlogDescription({ params }: Props) {
-  const { blog_id } = await params;
+  const { id } = await params;
   const response = await fetch(
-    `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${blog_id}`,
+    `http://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${id}`,
     {
       cache: "no-store",
       headers: {

@@ -1,8 +1,14 @@
+import { Metadata } from "next";
 
-import { BlogSkeleton } from "@/components/skeletons";
-import { Suspense } from "react";
+export const metadata: Metadata = {
+  title: {
+    default: "SCI Aesthetics | Revivsome Clinical Exosome for Skin Rejuvenation",
+    template: 'SCI Aesthetics | %s'
+  },
+  description: "Discover Revivsome by SCI Aesthetics, a clinical-grade exosome treatment for glowing skin, acne scars, and anti-aging. Trusted by top aesthetic clinics in Indonesia.",
+}
 
-export default function BlogLayout({
+export default function SectionLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -11,10 +17,7 @@ export default function BlogLayout({
     <section>
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="py-8">
-          {/* Page header */}
-          <div className="pb-12 md:pb-20">
-            {children}
-          </div>
+          {children}
         </div>
       </div>
     </section>

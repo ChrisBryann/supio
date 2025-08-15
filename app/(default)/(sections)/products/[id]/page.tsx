@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 type Params = {
   params: Promise<{
-    product_id: string;
+    id: string;
   }>;
 };
 
@@ -31,9 +31,9 @@ export async function generateStaticParams() {
 }
 
 const ProductDescriptionPage = async ({ params }: Params) => {
-  const { product_id } = await params;
+  const { id } = await params;
   const response = await fetch(
-    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${product_id}`,
+    `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/products/${id}`,
     {
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",

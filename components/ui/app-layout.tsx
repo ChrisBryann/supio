@@ -1,7 +1,7 @@
 "use client";
 import "@/app/css/style.css";
 
-import { Inter, DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -12,13 +12,8 @@ import { useEffect } from "react";
 
 const inter = Inter({
   subsets: ["latin"],
+  weight: '500',
   variable: "--font-inter",
-  display: "swap",
-});
-
-const dm_sans = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-roboto",
   display: "swap",
 });
 
@@ -35,14 +30,14 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${dm_sans.className} antialiased bg-white text-gray-900 tracking-tight`}
+        className={`${inter.className} antialiased bg-white text-gray-900 tracking-tight`}
       >
-          <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-            <Header />
-            <main className="grow">{children}</main>
+        <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
+          <Header />
+          <main className="grow">{children}</main>
 
-            <Footer />
-          </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

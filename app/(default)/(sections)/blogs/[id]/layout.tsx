@@ -6,15 +6,15 @@ import React, { Suspense } from "react";
 
 type Props = {
   params: Promise<{
-    blog_id: string;
+    id: string;
   }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { blog_id } = await params;
+  const { id } = await params;
   try {
     const response = await fetch(
-      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${blog_id}?select[title]=true&select[overview]=true`,
+      `https://${process.env.NEXT_PUBLIC_BACKEND_URL}/api/blogs/${id}?select[title]=true&select[overview]=true`,
       {
         headers: {
           "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
@@ -27,12 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
     const blog: Blog = await response.json();
     return {
-      title: `SCI Aesthetics | ${blog.title}`,
+      title: `${blog.title}`,
       description: blog.overview,
     };
   } catch (err) {}
   return {
-    title: "SCI Aesthetics | Blog",
+    title: "Blog",
   };
 }
 

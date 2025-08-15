@@ -59,7 +59,7 @@ export default function Products({ products }: Props) {
                   return (
                     <div
                       key={product.id}
-                      className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
+                      className={`flex items-center text-md p-5 rounded border transition duration-300 ease-in-out mb-3 ${
                         tab !== index
                           ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
                           : "bg-gray-200 border-transparent"
