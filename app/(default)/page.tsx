@@ -1,27 +1,27 @@
 import Hero from "@/components/hero";
 import Products from "@/components/products";
 import { Product } from "@/types";
-import { BASE_URL } from "@/utils/url";
+import { notFound } from "next/navigation";
+
+export const revalidate = 86400;
 
 export default async function Home() {
-
   const response = await fetch(
-    `${BASE_URL}/api/products?doc_limit=3`,
+    `https://${process.env.BACKEND_URL}/api/products`,
     {
-      cache: "no-cache",
+      headers: {
+        "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
+      },
     }
   );
-  console.log(response);
-  
 
   if (!response.ok) {
     // redirect 404 no connection?
-    console.log(response);
-    return <></>;
+    notFound();
   }
   const data = await response.json();
   // if (!data || (data && !data.products)) return <></>;
-  const products = ((data && data.products) ?? []) as Product[];
+  const products: Product[] = data.docs;
 
   return (
     <>

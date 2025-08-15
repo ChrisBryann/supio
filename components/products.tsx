@@ -5,6 +5,7 @@ import { Transition } from "@headlessui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
+import { AnimatePresence, motion } from "motion/react";
 
 type Props = {
   products: Product[];
@@ -25,7 +26,7 @@ export default function Products({ products }: Props) {
   }, []);
 
   return (
-    <section className="relative">
+    <section id="products" className="relative">
       {/* Section background (needs .relative class on parent and next sibling elements) */}
       <div
         className="absolute inset-0 bg-gray-100 pointer-events-none mb-16"
@@ -58,7 +59,7 @@ export default function Products({ products }: Props) {
                   return (
                     <div
                       key={product.id}
-                      className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
+                      className={`flex items-center text-md p-5 rounded border transition duration-300 ease-in-out mb-3 ${
                         tab !== index
                           ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
                           : "bg-gray-200 border-transparent"
@@ -198,34 +199,27 @@ export default function Products({ products }: Props) {
                   ref={tabs}
                 >
                   {/* Item 1 */}
-                  {products.map((product, index) => {
-                    return (
-                      <Transition
-                        key={product.id}
-                        show={tab === index}
-                        appear={true}
-                        className="w-full"
-                        enter="transition ease-in-out duration-700 transform order-first"
-                        enterFrom="opacity-0 translate-y-16"
-                        enterTo="opacity-100 translate-y-0"
-                        leave="transition ease-in-out duration-300 transform absolute"
-                        leaveFrom="opacity-100 translate-y-0"
-                        leaveTo="opacity-0 -translate-y-16"
-                        beforeEnter={() => heightFix()}
-                        unmount={false}
+                  <AnimatePresence mode="wait">
+                    {products[tab] && (
+                      <motion.div
+                        key={products[tab].id}
+                        initial={{ opacity: 0, y: 64 }} // translate-y-16 = 4rem = 64px
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -64 }}
+                        transition={{ ease: "easeInOut", duration: 0.5 }}
+                        onAnimationStart={() => heightFix()}
+                        className={`w-full relative inline-flex flex-col`}
                       >
-                        <div className="relative inline-flex flex-col">
-                          <Image
-                            className="md:max-w-noneee mx-auto my-auto rounded"
-                            src={product.image_url}
-                            width={450}
-                            height="480"
-                            alt={product.name}
-                          />
-                        </div>
-                      </Transition>
-                    );
-                  })}
+                        <Image
+                          className="md:max-w-none mx-auto my-auto rounded"
+                          src={products[tab].product_image.url}
+                          width={450}
+                          height="480"
+                          alt={products[tab].product_image.alt}
+                        />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               </div>
             </div>

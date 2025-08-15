@@ -1,5 +1,5 @@
 import Image from "next/image";
-import BrandLogo from "@/public/images/brand-logo.png";
+import BrandLogo from "@/public/images/supio-logo.png";
 import Link from "next/link";
 
 export default function Footer() {
@@ -22,25 +22,23 @@ export default function Footer() {
                 />
               </Link>
             </div>
-            <div className="text-sm text-gray-600 pl-2">
+            {/* <div className="text-sm text-gray-600 pl-2">
               <a
                 href="#0"
                 className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
               >
                 Terms
-              </a>{" "}
-              ·{" "}
+              </a>
+              ·
               <a
                 href="#0"
                 className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
               >
                 Privacy Policy
               </a>
-            </div>
+            </div> */}
             <div className="text-sm text-gray-600 pl-2">
-              <p
-                className="text-gray-600"
-              >
+              <p className="text-gray-600">
                 © Copyright 2024
                 <br />
                 <br />
@@ -193,7 +191,7 @@ export default function Footer() {
           </div> */}
 
           {/* 5th block */}
-          <div className="sm:col-span-6 md:col-span-3 lg:col-span-4 pl-2 lg:pl-0">
+          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-4 pl-2 lg:pl-0">
             <h6 className="text-gray-800 font-medium mb-2">Subscribe</h6>
             <p className="text-sm text-gray-600 mb-4">
               Join our email list for exclusive offers and the latest news.
@@ -233,12 +231,12 @@ export default function Footer() {
                       </svg>
                     </button>
                   </div>
-                  {/* Success message */}
-                  {/* <p className="mt-2 text-green-600 text-sm">Thanks for subscribing!</p> */}
+                  Success message
+                  <p className="mt-2 text-green-600 text-sm">Thanks for subscribing!</p>
                 </div>
               </div>
             </form>
-          </div>
+          </div> */}
         </div>
 
         {/* Bottom area */}

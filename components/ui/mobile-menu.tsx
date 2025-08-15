@@ -3,15 +3,13 @@
 import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
-import { useAuth } from "@/store/AuthContext/_context";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Button } from "./button";
 
 export default function MobileMenu() {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
-  const { data: session, status } = useSession();
 
   // close the mobile menu on click outside
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function MobileMenu() {
   });
 
   return (
-    <div className="flex md:hidden">
+    <div className="flex lg:hidden">
       {/* Hamburger button */}
       <button
         ref={trigger}
@@ -75,33 +73,68 @@ export default function MobileMenu() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <ul className="px-5 py-2">
+          <ul className="px-5 py-2 space-y-8">
             <li>
-              {session && (
-                <Link
-                  href={"/dashboard"}
-                  className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                  onClick={() => setMobileNavOpen(false)}
+              <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
                 >
-                  Dashboard
-                </Link>
-              )}
-
-              <p
-                className="flex font-medium w-full text-gray-600 hover:text-gray-900 py-2 justify-center"
-                onClick={() => {
-                  setMobileNavOpen(false);
-                  session
-                  ? signOut({
-                    callbackUrl: "/",
-                  })
-                  : signIn("", {
-                      callbackUrl: "/dashboard",
-                    });
-                }}
-              >
-                {session ? "Sign out" : "Sign in"}
-              </p>
+                  <Link
+                    href={"/"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Home
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"/products"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Products
+                  </Link>
+                </Button>
+                {/* <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"/events"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Events
+                  </Link>
+                </Button> */}
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"/blogs"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Blogs
+                  </Link>
+                </Button>
+                <Button
+                  asChild
+                  variant={"link"}
+                  className="flex text-md font-medium mx-auto py-2"
+                >
+                  <Link
+                    href={"/partners"}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    Partners
+                  </Link>
+                </Button>
             </li>
             {/* <li>
               <Link href="/signup" className="btn-sm text-gray-200 bg-gray-900 hover:bg-gray-800 w-full my-2" onClick={() => setMobileNavOpen(false)}>
