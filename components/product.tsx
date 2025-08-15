@@ -9,7 +9,7 @@ type Props = {
 export default function ProductPage({ products }: Props) {
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">Explore our Products</h1>
+      <h1 className="text-3xl font-bold">Explore Our Products</h1>
       <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         {products.map((product) => {
           return (

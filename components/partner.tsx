@@ -58,30 +58,35 @@ export default function PartnerPage({ partners, pageCount }: Props) {
         </h2>
       </div>
       <Separator />
-      <div className="flex flex-col md:flex-row gap-4">
-        <div className="w-full sm:min-w-[250px] sm:max-w-[250px]">
-          <ComboBox
-            open={open}
-            setOpen={setOpen}
-            value={location}
-            setValue={setLocation}
-            options={[
-              ...new Map(
-                partners
-                  .map((partner) => ({
-                    label: partner.location,
-                    value: partner.location,
-                  }))
-                  .map((item) => [item.label, item])
-              ).values(),
-            ]}
-            type="region"
-            className="w-full"
-          />
+      <div className="grid grid-cols-4 gap-4">
+        <div className="col-span-4 xl:col-span-1">
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-1">
+            <ComboBox
+              open={open}
+              setOpen={setOpen}
+              value={location}
+              setValue={setLocation}
+              options={[
+                ...new Map(
+                  partners
+                    .map((partner) => ({
+                      label: partner.location,
+                      value: partner.location,
+                    }))
+                    .map((item) => [item.label, item])
+                ).values(),
+              ]}
+              type="region"
+            />
+          </div>
         </div>
-        <div className="w-full flex flex-col gap-4">
+        <div className="col-span-4 xl:col-span-3 flex flex-col gap-4">
           <div className="flex flex-row gap-2 items-center">
-            {isPending ? <LoaderCircle className="size-5 animate-spin"/> : <Search className="size-5" />}
+            {isPending ? (
+              <LoaderCircle className="size-5 animate-spin" />
+            ) : (
+              <Search className="size-5" />
+            )}
             <Input
               placeholder="Search by name"
               onChange={(e) => {
@@ -90,7 +95,7 @@ export default function PartnerPage({ partners, pageCount }: Props) {
               defaultValue={searchParams.get("query")?.toString()}
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {(location
               ? partners.filter((partner) => partner.location === location)
               : partners
