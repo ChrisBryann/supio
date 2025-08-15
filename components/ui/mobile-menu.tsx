@@ -81,7 +81,7 @@ export default function MobileMenu() {
                   className="flex text-md font-medium mx-auto py-2"
                 >
                   <Link
-                    href={"#"}
+                    href={"/"}
                     onClick={() => setMobileNavOpen(false)}
                   >
                     Home
