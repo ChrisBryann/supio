@@ -67,14 +67,12 @@ export default function PartnerPage({ partners, pageCount }: Props) {
               value={location}
               setValue={setLocation}
               options={[
-                ...new Map(
-                  partners
-                    .map((partner) => ({
-                      label: partner.location,
-                      value: partner.location,
-                    }))
-                    .map((item) => [item.label, item])
-                ).values(),
+                ...[
+                  ...new Set(partners.flatMap((partner) => partner.location)),
+                ].map((region) => ({
+                  label: region,
+                  value: region,
+                })),
               ]}
               type="region"
             />
@@ -97,7 +95,9 @@ export default function PartnerPage({ partners, pageCount }: Props) {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
             {(location
-              ? partners.filter((partner) => partner.location === location)
+              ? partners.filter((partner) =>
+                  partner.location.includes(location)
+                )
               : partners
             ).map((partner) => {
               return (
@@ -143,7 +143,9 @@ export default function PartnerPage({ partners, pageCount }: Props) {
                   }
                 />
               </PaginationItem>
-              <PaginationItem>Page 1 out of {pageCount}</PaginationItem>
+              <PaginationItem>
+                Page {currentPage} out of {pageCount}
+              </PaginationItem>
               <PaginationItem>
                 <PaginationNext
                   href={createPartnerPageURL(currentPage + 1)}

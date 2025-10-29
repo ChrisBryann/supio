@@ -4,5 +4,5 @@ export interface Partner {
   id: string;
   name: string;
   partner_image?: ImageUpload;
-  location: string;
+  location: string[];
 }
