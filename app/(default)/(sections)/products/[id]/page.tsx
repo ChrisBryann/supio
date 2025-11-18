@@ -40,9 +40,13 @@ const ProductDescriptionPage = async ({ params }: Params) => {
       },
     }
   );
-  if (!response.ok) {
-    redirect("/");
-  }
+  console.log("RESPONSE STATUS:", response.status);
+    
+    if (!response.ok) {
+      // redirect to not found page
+      console.error("BAD RESPONSE:", response.status, response.statusText);
+      return notFound();
+    }
 
   const product: Product = await response.json();
   return <ProductDescription product={product} />;

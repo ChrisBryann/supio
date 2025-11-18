@@ -19,7 +19,7 @@ export async function generateStaticParams() {
       },
     }
   );
-  
+
   if (!response.ok) {
     return [];
   }
@@ -39,10 +39,13 @@ export default async function BlogDescription({ params }: Props) {
       },
     }
   );
-  const blog: Blog = await response.json();
+  console.log("RESPONSE STATUS:", response.status);
+  
   if (!response.ok) {
+    console.error("BAD RESPONSE:", response.status, response.statusText);
     return notFound();
   }
+  const blog: Blog = await response.json();
 
   return <BlogDescriptionPage blog={blog} />;
 }
