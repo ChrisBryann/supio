@@ -1,7 +1,6 @@
 import ProductDescription from "@/components/product-description";
 import { Product } from "@/types";
-import { BASE_URL } from "@/utils/url";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 type Params = {
   params: Promise<{
