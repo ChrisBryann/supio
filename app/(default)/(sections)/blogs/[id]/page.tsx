@@ -31,16 +31,15 @@ export async function generateStaticParams() {
 export default async function BlogDescription({ params }: Props) {
   const { id } = await params;
   const response = await fetch(
-    `http://${process.env.BACKEND_URL}/api/blogs/${id}`,
+    `https://${process.env.BACKEND_URL}/api/blogs/${id}`,
     {
-      cache: "no-store",
       headers: {
         "x-frontend-secret": process.env.PAYLOAD_FRONTEND_SHARED_SECRET || "",
       },
     }
   );
   console.log("RESPONSE STATUS:", response.status);
-  
+
   if (!response.ok) {
     console.error("BAD RESPONSE:", response.status, response.statusText);
     return notFound();
