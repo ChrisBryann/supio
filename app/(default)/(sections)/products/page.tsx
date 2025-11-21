@@ -13,11 +13,14 @@ const ProductsPage = async () => {
       },
     }
   );
-
+  console.log("RESPONSE STATUS:", response.status);
+  
   if (!response.ok) {
-    // redirect 404 no connection?
-    notFound();
+    // redirect to not found page
+    console.error("BAD RESPONSE:", response.status, response.statusText);
+    return notFound();
   }
+  
   const data = await response.json();
   const products: Product[] = data.docs;
   return <ProductPage products={products} />;

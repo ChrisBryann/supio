@@ -13,11 +13,15 @@ export default async function Blogs() {
       },
     }
   );
-  const data: any = await response.json();
+  console.log('RESPONSE STATUS:', response.status)
+
   if (!response.ok) {
-    
+    console.error('BAD RESPONSE:', response.status, response.statusText)
     notFound();
   }
+
+  const data: any = await response.json();
+  
   const blogs: Blog[] = data.docs;
   //   {
   //     id: "aad1813a-4ec7-4f22-bb00-ba06a4b0b8e2",

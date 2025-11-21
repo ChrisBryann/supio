@@ -1,7 +1,6 @@
 import ProductDescription from "@/components/product-description";
 import { Product } from "@/types";
-import { BASE_URL } from "@/utils/url";
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 type Params = {
   params: Promise<{
@@ -40,9 +39,13 @@ const ProductDescriptionPage = async ({ params }: Params) => {
       },
     }
   );
-  if (!response.ok) {
-    redirect("/");
-  }
+  console.log("RESPONSE STATUS:", response.status);
+    
+    if (!response.ok) {
+      // redirect to not found page
+      console.error("BAD RESPONSE:", response.status, response.statusText);
+      return notFound();
+    }
 
   const product: Product = await response.json();
   return <ProductDescription product={product} />;

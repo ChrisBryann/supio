@@ -1,6 +1,6 @@
 import PartnerPage from "@/components/partner";
 import { Partner } from "@/types";
-import { notFound, redirect, useSearchParams } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export const revalidate = 86400; // enable ISR caching
 
@@ -20,9 +20,12 @@ export default async function Partners({
       },
     }
   );
+  console.log("RESPONSE STATUS:", response.status);
+  
   if (!response.ok) {
     // redirect to not found page
-    notFound();
+    console.error("BAD RESPONSE:", response.status, response.statusText);
+    return notFound();
   }
   const data = await response.json();
   const pageCount = data.totalPages;
