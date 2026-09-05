@@ -6,8 +6,6 @@ import { Inter } from "next/font/google";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-import Header from "@/components/ui/header";
-import Footer from "@/components/ui/footer";
 import { useEffect } from "react";
 
 const inter = Inter({
@@ -33,10 +31,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         className={`${inter.className} antialiased bg-white text-gray-900 tracking-tight`}
       >
         <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
-          <Header />
-          <main className="grow">{children}</main>
-
-          <Footer />
+          {children}
         </div>
       </body>
     </html>
