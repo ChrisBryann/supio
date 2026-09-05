@@ -22,7 +22,7 @@ type Props = {
 
 const STATUS_COPY: Record<VerifyStatus, { label: string; className: string }> = {
   genuine: {
-    label: "This Product is Genuine",
+    label: "This Product is Authentic",
     className: "bg-green-50 text-green-700 ring-1 ring-inset ring-green-600/20",
   },
   "not-genuine": {
@@ -39,7 +39,13 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
   const { label, className } = STATUS_COPY[status];
 
   return (
-    <div className="relative min-h-screen overflow-hidden flex flex-col items-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-6 pt-4 pb-10">
+    <div
+      className="relative min-h-screen overflow-hidden flex flex-col items-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-6"
+      style={{
+        paddingTop: "calc(1rem + env(safe-area-inset-top))",
+        paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))",
+      }}
+    >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
