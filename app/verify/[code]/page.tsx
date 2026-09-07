@@ -1,8 +1,20 @@
 import { parseQrCode, verifyQrSignature } from "@/lib/qr-token";
 import { findStockRecord } from "@/lib/accurate";
 import VerifyResult from "@/components/verify-result";
+import { Viewport } from "next";
 
 export const dynamic = "force-dynamic";
+
+// Regular Safari (not "Add to Home Screen") draws the status-bar and
+// home-indicator areas itself - a page can't paint literally behind the
+// hardware notch there. theme-color tints Safari's own chrome to match this
+// page's background so the two blend instead of showing a plain white edge.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#e0f2fe",
+};
 
 type Params = {
   params: Promise<{
