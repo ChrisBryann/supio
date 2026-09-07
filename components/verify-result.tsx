@@ -97,15 +97,17 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, ease: "easeOut" }}
             >
-              {/* Plain img: Accurate's image host can change (see docs), so it
-                  isn't safe to hardcode into next.config.mjs remotePatterns. */}
-              <img
-                src={product.imageUrl}
-                alt={product.name}
-                width={480}
-                height={480}
-                className="rounded-md object-contain max-w-[360px] max-h-[360px] w-full"
-              />
+              <div className="bg-white rounded-2xl shadow-lg p-5 sm:p-6">
+                {/* Plain img: Accurate's image host can change (see docs), so it
+                    isn't safe to hardcode into next.config.mjs remotePatterns. */}
+                <img
+                  src={product.imageUrl}
+                  alt={product.name}
+                  width={480}
+                  height={480}
+                  className="rounded-md object-contain max-w-[300px] max-h-[300px] w-full"
+                />
+              </div>
             </motion.div>
           </div>
         )}
