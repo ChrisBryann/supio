@@ -40,7 +40,7 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
 
   return (
     <div
-      className="relative min-h-screen overflow-hidden flex flex-col items-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-6"
+      className="relative min-h-dvh overflow-hidden flex flex-col items-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-6"
       style={{
         paddingTop: "calc(1rem + env(safe-area-inset-top))",
         paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))",
