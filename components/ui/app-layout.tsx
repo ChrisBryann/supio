@@ -30,7 +30,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <body
         className={`${inter.className} antialiased bg-white text-gray-900 tracking-tight`}
       >
-        <div className="flex flex-col min-h-screen overflow-hidden supports-[overflow:clip]:overflow-clip">
+        <div className="flex flex-col min-h-dvh overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}
         </div>
       </body>
