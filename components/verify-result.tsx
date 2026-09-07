@@ -72,7 +72,7 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
       <Image
         src={BrandLogo}
         alt="Supio Cosmetics Indonesia"
-        width={350}
+        width={250}
         height={80}
         priority
         className="relative"
@@ -104,7 +104,7 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
                 alt={product.name}
                 width={480}
                 height={480}
-                className="rounded-md object-contain drop-shadow-xl max-w-[360px] max-h-[360px] w-full"
+                className="rounded-md object-contain max-w-[360px] max-h-[360px] w-full"
               />
             </motion.div>
           </div>
