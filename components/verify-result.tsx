@@ -39,13 +39,21 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
   const { label, className } = STATUS_COPY[status];
 
   return (
-    <div
-      className="relative min-h-dvh overflow-hidden flex flex-col items-center bg-gradient-to-br from-sky-50 via-white to-purple-50 px-6"
-      style={{
-        paddingTop: "calc(1rem + env(safe-area-inset-top))",
-        paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))",
-      }}
-    >
+    <>
+      {/* Pinned to the true visual viewport (immune to 100vh/100dvh edge
+          cases on iOS Safari) so the background always reaches every edge,
+          independent of how tall the content below happens to be. */}
+      <div
+        className="fixed inset-0 overflow-hidden bg-gradient-to-br from-sky-50 via-white to-purple-50"
+        aria-hidden="true"
+      />
+      <div
+        className="relative min-h-dvh overflow-hidden flex flex-col items-center px-6"
+        style={{
+          paddingTop: "calc(1rem + env(safe-area-inset-top))",
+          paddingBottom: "calc(2.5rem + env(safe-area-inset-bottom))",
+        }}
+      >
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -54,6 +62,8 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
         style={{
           background:
             "radial-gradient(circle, rgba(125,211,252,0.5) 0%, rgba(56,189,248,0.3) 45%, rgba(255,255,255,0) 72%)",
+          transform: "translateZ(0)",
+          willChange: "transform, opacity",
         }}
         aria-hidden="true"
       />
@@ -65,6 +75,8 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
         style={{
           background:
             "radial-gradient(circle, rgba(168,85,247,0.5) 0%, rgba(147,51,234,0.3) 45%, rgba(255,255,255,0) 72%)",
+          transform: "translateZ(0)",
+          willChange: "transform, opacity",
         }}
         aria-hidden="true"
       />
@@ -85,10 +97,12 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none w-[500px] h-[500px] max-w-[90vw] max-h-[90vw] rounded-full blur-3xl"
+              className="absolute left-1/2 top-1/2 pointer-events-none w-[500px] h-[500px] max-w-[90vw] max-h-[90vw] rounded-full blur-3xl"
               style={{
                 background:
                   "radial-gradient(circle, rgba(125,211,252,0.55) 0%, rgba(147,51,234,0.4) 45%, rgba(255,255,255,0) 72%)",
+                transform: "translate(-50%, -50%) translateZ(0)",
+                willChange: "transform, opacity",
               }}
               aria-hidden="true"
             />
@@ -165,6 +179,7 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
           )}
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
