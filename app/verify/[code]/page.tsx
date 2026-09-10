@@ -13,7 +13,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#e0f2fe",
+  themeColor: "#f0f9ff",
 };
 
 type Params = {
