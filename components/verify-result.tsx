@@ -47,7 +47,15 @@ export default function VerifyResult({ status, serial, product, socialLinks }: P
           when the component unmounts (client nav away), restoring body bg. */}
       <style>{`
         html {
-          background: linear-gradient(135deg, #f0f9ff 0%, #ffffff 45%, #faf5ff 100%) fixed !important;
+          /* Explicit background-COLOR (not the shorthand) is the reliable
+             filler iOS Safari paints into the safe-area strips + overscroll.
+             The gradient image sits on top of it for the visible area; where
+             the fixed image doesn't reach, this color shows instead of white. */
+          background-color: #f4f3fc !important;
+          background-image: linear-gradient(135deg, #f0f9ff 0%, #ffffff 45%, #faf5ff 100%);
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: cover;
           min-height: 100%;
         }
         body { background: transparent !important; }
