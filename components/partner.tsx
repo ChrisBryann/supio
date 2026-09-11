@@ -18,6 +18,15 @@ type Props = {
   pageCount: number;
 };
 
+function getInitials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 export default function PartnerPage({ partners, pageCount }: Props) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -108,15 +117,21 @@ export default function PartnerPage({ partners, pageCount }: Props) {
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4">
           {visible.map((partner) => (
             <div key={partner.id} className="flex flex-col">
-              <div className="relative aspect-square w-full overflow-hidden bg-gray-200">
-                {partner.partner_image?.url && (
+              <div className="relative aspect-square w-full overflow-hidden bg-white">
+                {partner.partner_image?.url ? (
                   <Image
                     src={partner.partner_image.url}
                     alt={partner.partner_image.alt || partner.name}
                     fill
                     sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="object-cover"
+                    className="object-contain p-4"
                   />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-sky-50 to-purple-50">
+                    <span className="text-4xl font-light tracking-wide text-gray-400">
+                      {getInitials(partner.name)}
+                    </span>
+                  </div>
                 )}
               </div>
               {partner.location?.length > 0 && (
