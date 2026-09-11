@@ -39,14 +39,17 @@ export const ComboBox = ({
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
-          className={cn(className, "justify-between")}
+          className={cn(
+            "flex h-12 w-full items-center justify-between rounded-full border-gray-300 px-5 font-normal text-gray-600",
+            className
+          )}
           variant="outline"
           role="combobox"
           aria-expanded={open}
         >
           {value
             ? options.find((option) => option.value === value)?.label
-            : `Select ${type}...`}
+            : `Select ${type}`}
           {open ? (
             <ChevronUp className="opacity-50" />
           ) : (
@@ -54,7 +57,7 @@ export const ComboBox = ({
           )}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className={cn(className, "p-0")}>
+      <PopoverContent className={cn("w-[var(--radix-popover-trigger-width)] p-0", className)}>
         <Command>
           <CommandInput
             placeholder={`Search ${type}...`}

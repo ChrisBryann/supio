@@ -1,229 +1,118 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { Transition } from "@headlessui/react";
+import { useCallback, useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Product } from "@/types";
-import { AnimatePresence, motion } from "motion/react";
 
 type Props = {
   products: Product[];
 };
 
+const THUMB_WIDTH_PCT = 28;
+
 export default function Products({ products }: Props) {
-  const [tab, setTab] = useState<number>(0);
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    dragFree: true,
+    containScroll: "trimSnaps",
+  });
+  const [progress, setProgress] = useState(0);
 
-  const tabs = useRef<HTMLDivElement>(null);
-
-  const heightFix = () => {
-    if (tabs.current && tabs.current.parentElement)
-      tabs.current.parentElement.style.height = `${tabs.current.clientHeight}px`;
-  };
+  const onScroll = useCallback(() => {
+    if (!emblaApi) return;
+    setProgress(Math.max(0, Math.min(1, emblaApi.scrollProgress())));
+  }, [emblaApi]);
 
   useEffect(() => {
-    heightFix();
-  }, []);
+    if (!emblaApi) return;
+    onScroll();
+    emblaApi.on("scroll", onScroll).on("reInit", onScroll);
+    return () => {
+      emblaApi.off("scroll", onScroll).off("reInit", onScroll);
+    };
+  }, [emblaApi, onScroll]);
 
   return (
-    <section id="products" className="relative">
-      {/* Section background (needs .relative class on parent and next sibling elements) */}
-      <div
-        className="absolute inset-0 bg-gray-100 pointer-events-none mb-16"
-        aria-hidden="true"
-      ></div>
-      {/* <div className="absolute left-0 right-0 m-auto w-px p-px h-20 bg-gray-200 transform -translate-y-1/2"></div> */}
+    <section id="products" className="relative bg-white py-16 md:py-24">
+      <div className="mx-auto max-w-site px-6 lg:px-8">
+        {/* Section header */}
+        <div className="mb-8 md:mb-12" data-aos="fade-up">
+          <p className="mb-3 text-sm font-medium uppercase tracking-widest text-gray-500">
+            Our Products
+          </p>
+          <h2 className="text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+            Elevating Clinical Aesthetics to the Next Level
+          </h2>
+        </div>
+      </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-12 md:pt-20">
-          {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h2 mb-4">Explore our products</h1>
-            {/* <p className="text-xl text-gray-600">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat.</p> */}
-          </div>
-
-          {/* Section content */}
-          <div className="md:grid md:grid-cols-12 md:gap-6">
-            {/* Content */}
-            <div
-              className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-7 lg:col-span-6 md:mt-6"
-              data-aos="fade-right"
-            >
-              {/* <div className="md:pr-4 lg:pr-12 xl:pr-16 mb-8">
-                <h3 className="h3 mb-3">Powerful suite of tools</h3>
-                <p className="text-xl text-gray-600">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa.</p>
-              </div> */}
-              {/* Tabs buttons */}
-              <div className="mb-8 md:mb-0">
-                {products.map((product, index) => {
-                  return (
-                    <div
-                      key={product.id}
-                      className={`flex items-center text-md p-5 rounded border transition duration-300 ease-in-out mb-3 ${
-                        tab !== index
-                          ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
-                          : "bg-gray-200 border-transparent"
-                      }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setTab(index);
-                      }}
-                    >
-                      <div>
-                        <div className="font-bold leading-snug tracking-tight mb-1 text-2xl">
-                          {product.name}
-                        </div>
-                        <div className="text-gray-600">
-                          {product.main_description}
-                        </div>
-                      </div>
-                      <Link
-                        href={{ pathname: `/products/${product.id}` }}
-                        className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3"
-                      >
-                        <svg
-                          className="w-8 h-8"
-                          aria-hidden="true"
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="m10 16 4-4-4-4"
-                          />
-                        </svg>
-                      </Link>
-                    </div>
-                  );
-                })}
-
-                {/* <a
-                  className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
-                    tab !== 2
-                      ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
-                      : "bg-gray-200 border-transparent"
-                  }`}
-                  href="#0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setTab(2);
-                  }}
-                >
-                  <div>
-                    <div className="font-bold leading-snug tracking-tight mb-1 text-2xl">
-                      Thetis Bio Revivsome Bio WB
-                    </div>
-                    <div className="text-gray-600">
-                      An ampoule containing freeze-dried stem cell culture
-                      solution that brightens the skin, increases skin
-                      elasticity, and improves wrinkles.
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
-                    <svg
-                      className="w-8 h-8"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m10 16 4-4-4-4"
-                      />
-                    </svg>
-                  </div>
-                </a>
-                <a
-                  className={`flex items-center text-lg p-5 rounded border transition duration-300 ease-in-out mb-3 ${
-                    tab !== 3
-                      ? "bg-white shadow-md border-gray-200 hover:shadow-lg"
-                      : "bg-gray-200 border-transparent"
-                  }`}
-                  href="#0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setTab(3);
-                  }}
-                >
-                  <div>
-                    <div className="font-bold leading-snug tracking-tight mb-1 text-2xl">
-                      Water Drops Cream
-                    </div>
-                    <div className="text-gray-600">
-                      This product can show your {"skin's"} oil and moisture
-                      balance. You can know your skin condition from how many
-                      water drops occur on your skin.{" "}
-                    </div>
-                  </div>
-                  <div className="flex justify-center items-center w-8 h-8 bg-white rounded-full shadow flex-shrink-0 ml-3">
-                    <svg
-                      className="w-8 h-8"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m10 16 4-4-4-4"
-                      />
-                    </svg>
-                  </div>
-                </a> */}
-                <Link
-                  className={`flex items-center text-lg text-center text-blue-400 transition duration-300 ease-in-out mb-3 hover:text-blue-500`}
-                  href="/products"
-                >
-                  See all our products
-                </Link>
-              </div>
-            </div>
-
-            {/* Tabs items */}
-            <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 md:mb-0 md:order-1">
-              <div className="transition-all">
+      {/* Carousel: full-bleed, cards flush (no gap / no rounding), leftmost
+          image sits at the very edge of the viewport, per the prototype. */}
+      <div className="w-full">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex">
+            {products.map((product) => (
+              <Link
+                key={product.id}
+                href={`/products/${product.id}`}
+                className="group relative aspect-[3/4] shrink-0 grow-0 basis-3/4 overflow-hidden sm:basis-1/2 lg:basis-1/4"
+              >
+                <Image
+                  src={product.product_image.url}
+                  alt={product.product_image.alt || product.name}
+                  fill
+                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Legibility scrim */}
                 <div
-                  className="relative flex flex-col text-center lg:text-right pt-5"
-                  data-aos="zoom-y-out"
-                  ref={tabs}
-                >
-                  {/* Item 1 */}
-                  <AnimatePresence mode="wait">
-                    {products[tab] && (
-                      <motion.div
-                        key={products[tab].id}
-                        initial={{ opacity: 0, y: 64 }} // translate-y-16 = 4rem = 64px
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -64 }}
-                        transition={{ ease: "easeInOut", duration: 0.5 }}
-                        onAnimationStart={() => heightFix()}
-                        className={`w-full relative inline-flex flex-col`}
-                      >
-                        <Image
-                          className="md:max-w-none mx-auto my-auto rounded"
-                          src={products[tab].product_image.url}
-                          width={450}
-                          height="480"
-                          alt={products[tab].product_image.alt}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
-            </div>
+                  className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
+                  aria-hidden="true"
+                />
+                <p className="absolute bottom-5 left-5 right-5 text-lg font-medium leading-snug text-white">
+                  {product.name}
+                </p>
+              </Link>
+            ))}
           </div>
+        </div>
+      </div>
+
+      <div className="mx-auto max-w-site px-6 lg:px-8">
+        {/* Progress bar */}
+        <div className="mx-auto mt-8 h-1 w-56 overflow-hidden rounded-full bg-gray-200">
+          <div
+            className="h-full rounded-full bg-gray-900"
+            style={{
+              width: `${THUMB_WIDTH_PCT}%`,
+              transform: `translateX(${
+                (progress * (100 - THUMB_WIDTH_PCT)) / THUMB_WIDTH_PCT * 100
+              }%)`,
+            }}
+          />
+        </div>
+
+        {/* See all */}
+        <div className="mt-10 flex justify-center">
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 rounded-full border border-gray-300 px-6 py-3 text-sm font-medium text-gray-900 transition hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+          >
+            See All Product
+            <svg
+              className="h-4 w-4"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
         </div>
       </div>
     </section>

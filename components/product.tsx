@@ -8,36 +8,45 @@ type Props = {
 
 export default function ProductPage({ products }: Props) {
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold">Explore Our Products</h1>
-      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
-        {products.map((product) => {
-          return (
-            <Link
-              key={product.id}
-              href={`/products/${product.id}`}
-              className="hover:underline"
-            >
-              <div className="flex flex-col gap-2">
-                <div className="w-full relative">
-                  <Image
-                    src={product.product_image.url}
-                    alt={product.product_image.alt}
-                    width={0}
-                    height={0}
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    style={{ width: "100%", height: "400px" }}
-                    // fill
-                    // loader={gumletLoader}
-                    className="rounded-md object-cover"
-                  />
-                </div>
+    <div className="flex flex-col gap-8">
+      {/* Header */}
+      <div data-aos="fade-up">
+        <p className="mb-3 text-sm font-medium uppercase tracking-widest text-gray-500">
+          Our Products
+        </p>
+        <h1 className="text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+          Elevating Clinical Aesthetics to the Next Level
+        </h1>
+      </div>
 
-                <p className="font-semibold">{product.name}</p>
-              </div>
-            </Link>
-          );
-        })}
+      {/* Grid: full-bleed to the viewport edges regardless of the section
+          container's max-width/padding (the app-layout root clips any
+          overflow, so 100vw won't cause horizontal scroll). Tiny gaps between
+          items; product name overlaid on a bottom fade. */}
+      <div className="grid w-screen grid-cols-2 gap-2 mx-[calc(50%-50vw)] lg:grid-cols-4">
+        {products.map((product) => (
+          <Link
+            key={product.id}
+            href={`/products/${product.id}`}
+            className="group relative aspect-[3/4] overflow-hidden"
+          >
+            <Image
+              src={product.product_image.url}
+              alt={product.product_image.alt || product.name}
+              fill
+              sizes="(max-width: 1024px) 50vw, 25vw"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+            />
+            {/* Bottom fade for name legibility */}
+            <div
+              className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"
+              aria-hidden="true"
+            />
+            <p className="absolute bottom-5 left-5 right-5 text-lg font-medium leading-snug text-white">
+              {product.name}
+            </p>
+          </Link>
+        ))}
       </div>
     </div>
   );

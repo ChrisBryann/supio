@@ -1,19 +1,12 @@
 "use client";
 import "@/app/css/style.css";
 
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
 
 import { useEffect } from "react";
-
-const inter = Inter({
-  subsets: ["latin"],
-  weight: '500',
-  variable: "--font-inter",
-  display: "swap",
-});
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
@@ -28,7 +21,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body
-        className={`${inter.className} antialiased bg-white text-gray-900 tracking-tight`}
+        className={`${GeistSans.variable} font-sans antialiased bg-white text-gray-900 tracking-tight`}
       >
         <div className="flex flex-col min-h-dvh overflow-hidden supports-[overflow:clip]:overflow-clip">
           {children}

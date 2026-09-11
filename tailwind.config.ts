@@ -102,7 +102,9 @@ module.exports = {
         "1/1": "100%",
       },
       fontFamily: {
-        inter: ["var(--font-inter)", "sans-serif"],
+        sans: ["var(--font-geist-sans)", "sans-serif"],
+        geist: ["var(--font-geist-sans)", "sans-serif"],
+        inter: ["var(--font-geist-sans)", "sans-serif"],
       },
       fontSize: {
         xs: "0.75rem",
@@ -149,6 +151,11 @@ module.exports = {
         "10": "2.5rem",
         "48": "12rem",
       },
+      maxWidth: {
+        // Main content column for the landing page + chrome. Wider than
+        // Tailwind's built-in max-w-7xl (80rem/1280px). Tune here in one place.
+        site: "100rem",
+      },
       opacity: {
         "90": "0.9",
       },
@@ -158,6 +165,8 @@ module.exports = {
       animation: {
         float: "float 3s ease-in-out infinite",
         move: "move 5s linear infinite",
+        drift: "drift 16s ease-in-out infinite",
+        marquee: "marquee 40s linear infinite",
       },
       keyframes: {
         float: {
@@ -171,6 +180,15 @@ module.exports = {
         move: {
           "0%": { transform: "translateX(-200px)" },
           "100%": { transform: "translateX(200px)" },
+        },
+        drift: {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "33%": { transform: "translate(-4%, 3%) scale(1.05)" },
+          "66%": { transform: "translate(3%, -2%) scale(0.97)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
         },
       },
       zIndex: {

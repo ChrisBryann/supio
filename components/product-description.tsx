@@ -1,5 +1,6 @@
 import { Product } from "@/types";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   product: Product;
@@ -7,51 +8,77 @@ type Props = {
 
 const ProductDescription = ({ product }: Props) => {
   return (
-    <section>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pt-24 pb-12 md:pt-28 md:pb-20">
-          {/* Page header */}
+    <div className="flex flex-col gap-8">
+      {/* Breadcrumb */}
+      <nav className="text-sm text-gray-500" aria-label="Breadcrumb">
+        <Link
+          href="/products"
+          className="uppercase tracking-wide transition hover:text-gray-700"
+        >
+          Products
+        </Link>
+        <span className="mx-2">&gt;</span>
+        <span className="font-medium text-gray-900">{product.name}</span>
+      </nav>
 
-          <div className="text-center pb-12 md:pb-20 flex flex-col md:flex-row md:space-x-8">
-            <div className="w-full relative">
-              <Image
-                className="rounded-md object-cover w-full md:min-w-[400px] h-[500px]"
-                src={product.product_image.url}
-                width={0}
-                height={0}
-                alt={product.product_image.alt}
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              />
-            </div>
-            <div className="px-4 mx-auto text-left flex flex-col space-y-6">
-              <div className="text-4xl font-semibold">{product.name}</div>
-              <div className="text-md font-medium text-gray-700">
-                {product.main_description}
-              </div>
+      <div className="grid gap-10 md:grid-cols-2 md:gap-14">
+        {/* Image */}
+        <div className="relative aspect-square w-full max-w-lg overflow-hidden bg-gray-100">
+          <Image
+            src={product.product_image.url}
+            alt={product.product_image.alt || product.name}
+            fill
+            sizes="(max-width: 768px) 100vw, 512px"
+            className="object-cover"
+            priority
+          />
+        </div>
 
-              <div
-                style={{ whiteSpace: "pre-line" }}
-                className="text-md font-medium text-gray-700"
+        {/* Details */}
+        <div className="flex flex-col">
+          <h1 className="text-3xl font-light tracking-tight text-gray-900 sm:text-4xl">
+            {product.name}
+          </h1>
+
+          {product.main_description && (
+            <p className="mt-4 text-xl text-gray-800">
+              {product.main_description}
+            </p>
+          )}
+
+          {product.additional_description && (
+            <p
+              style={{ whiteSpace: "pre-line" }}
+              className="mt-6 text-base leading-relaxed text-gray-500"
+            >
+              {product.additional_description.replaceAll("\\n", "\n")}
+            </p>
+          )}
+
+          {product.brochure?.url && (
+            <Link
+              href={product.brochure.url}
+              target="_blank"
+              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full border border-gray-300 px-6 py-3 text-sm font-medium text-gray-900 transition hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+            >
+              See Brochure
+              <svg
+                className="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
               >
-                {product.additional_description?.replaceAll("\\n", "\n")}
-              </div>
-              {/* <button className="p-2 mr-auto text-md text-white rounded-md bg-black flex justify-center items-center gap-2 hover:bg-gray-900">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="white"
-                  viewBox="0 0 16 16"
-                >
-                  <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.5 2.5 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5m-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3" />
-                </svg>
-                Share
-              </button> */}
-            </div>
-          </div>
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          )}
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
