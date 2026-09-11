@@ -1,299 +1,101 @@
 import Image from "next/image";
-import BrandLogo from "@/public/images/supio-logo.png";
+import BrandLogo from "@/public/images/brand-logo-colored.png";
 import Link from "next/link";
 
-export default function Footer() {
+function SocialRow({
+  href,
+  label,
+  icon,
+}: {
+  href: string;
+  label: string;
+  icon: React.ReactNode;
+}) {
   return (
-    <footer>
-      <div className="max-w-6xl mx-auto px-4 py-2 sm:px-6">
-        {/* Top area: Blocks */}
-        <div className="grid sm:grid-cols-12 gap-8 py-8 md:py-12 border-t border-gray-200 ">
-          {/* 1st block */}
-          <div className="sm:col-span-12 lg:col-span-4">
-            <div className="mb-2">
-              <Link href={"/"}>
-                <Image
-                  className="md:max-w-none rounded hover:cursor-pointer"
-                  src={BrandLogo}
-                  width={200}
-                  height={200}
-                  alt="brand_logo"
-                  data-aos="zoom-y-out"
-                />
-              </Link>
-            </div>
-            {/* <div className="text-sm text-gray-600 pl-2">
-              <a
-                href="#0"
-                className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
-              >
-                Terms
-              </a>
-              ·
-              <a
-                href="#0"
-                className="text-gray-600 hover:text-gray-900 hover:underline transition duration-150 ease-in-out"
-              >
-                Privacy Policy
-              </a>
-            </div> */}
-            <div className="text-sm text-gray-600 pl-2">
-              <p className="text-gray-600">
-                © Copyright 2024
-                <br />
-                <br />
-                PT SUPIO COSMETICS
-                <br />
-                INDONESIA
-              </p>
-            </div>
+    <Link
+      href={href}
+      target="_blank"
+      className="flex items-center justify-between border-t border-gray-200 py-4 text-gray-800 transition hover:text-gray-500"
+    >
+      <span className="flex items-center gap-3">
+        <span className="text-gray-600">{icon}</span>
+        <span className="text-sm font-medium uppercase tracking-wide">
+          {label}
+        </span>
+      </span>
+      <svg
+        className="h-4 w-4"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </svg>
+    </Link>
+  );
+}
+
+export default function Footer() {
+  const instagramUrl = process.env.INSTAGRAM_URL;
+  const whatsappUrl = process.env.WHATSAPP_URL;
+
+  return (
+    <footer className="bg-white">
+      <div className="mx-auto max-w-site px-6 lg:px-8">
+        <div className="grid gap-10 border-t border-gray-200 py-12 md:grid-cols-2 md:py-16">
+          {/* Brand + address */}
+          <div>
+            <Link href="/">
+              <Image
+                className="rounded hover:cursor-pointer"
+                src={BrandLogo}
+                width={260}
+                height={80}
+                alt="SUPIO Cosmetics Indonesia"
+                data-aos="fade-up"
+              />
+            </Link>
+            <address className="mt-6 max-w-xs text-sm not-italic leading-relaxed text-gray-500">
+              Ciputra World Office Unit 1003, Jl. Mayjen Sungkono No.87 Lantai
+              10, Gn. Sari, Kec. Dukuhpakis, Surabaya, Jawa Timur 60224
+            </address>
           </div>
 
-          {/* 2nd block */}
-          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Products</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Web Studio
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  DynamicBox Flex
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Programming Forms
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Integrations
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Command-line
-                </a>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* 3rd block */}
-          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Resources</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Documentation
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Tutorials & Guides
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Blog
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Support Center
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Partners
-                </a>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* 4th block */}
-          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-2">
-            <h6 className="text-gray-800 font-medium mb-2">Company</h6>
-            <ul className="text-sm">
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Home
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  About us
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Company values
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Pricing
-                </a>
-              </li>
-              <li className="mb-2">
-                <a
-                  href="#0"
-                  className="text-gray-600 hover:text-gray-900 transition duration-150 ease-in-out"
-                >
-                  Privacy Policy
-                </a>
-              </li>
-            </ul>
-          </div> */}
-
-          {/* 5th block */}
-          {/* <div className="sm:col-span-6 md:col-span-3 lg:col-span-4 pl-2 lg:pl-0">
-            <h6 className="text-gray-800 font-medium mb-2">Subscribe</h6>
-            <p className="text-sm text-gray-600 mb-4">
-              Join our email list for exclusive offers and the latest news.
-            </p>
-            <form>
-              <div className="flex flex-wrap mb-4">
-                <div className="w-full">
-                  <label className="block text-sm sr-only" htmlFor="newsletter">
-                    Email
-                  </label>
-                  <div className="relative flex items-center max-w-xs">
-                    <input
-                      id="newsletter"
-                      type="email"
-                      className="form-input w-full text-gray-800 px-3 py-2 pr-12 text-sm"
-                      placeholder="Your email"
-                      required
-                    />
-                    <button
-                      type="submit"
-                      className="absolute inset-0 left-auto"
-                      aria-label="Subscribe"
-                    >
-                      <span
-                        className="absolute inset-0 right-auto w-px -ml-px my-2 bg-gray-300"
-                        aria-hidden="true"
-                      ></span>
-                      <svg
-                        className="w-3 h-3 fill-current text-blue-600 mx-3 shrink-0"
-                        viewBox="0 0 12 12"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M11.707 5.293L7 .586 5.586 2l3 3H0v2h8.586l-3 3L7 11.414l4.707-4.707a1 1 0 000-1.414z"
-                          fillRule="nonzero"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                  Success message
-                  <p className="mt-2 text-green-600 text-sm">Thanks for subscribing!</p>
-                </div>
-              </div>
-            </form>
-          </div> */}
+          {/* Social links */}
+          <div className="md:pl-8">
+            {instagramUrl && (
+              <SocialRow
+                href={instagramUrl}
+                label="Instagram"
+                icon={
+                  <svg className="h-5 w-5 fill-current" viewBox="0 0 50 50">
+                    <path d="M 16 3 C 8.8324839 3 3 8.8324839 3 16 L 3 34 C 3 41.167516 8.8324839 47 16 47 L 34 47 C 41.167516 47 47 41.167516 47 34 L 47 16 C 47 8.8324839 41.167516 3 34 3 L 16 3 z M 16 5 L 34 5 C 40.086484 5 45 9.9135161 45 16 L 45 34 C 45 40.086484 40.086484 45 34 45 L 16 45 C 9.9135161 45 5 40.086484 5 34 L 5 16 C 5 9.9135161 9.9135161 5 16 5 z M 37 11 A 2 2 0 0 0 35 13 A 2 2 0 0 0 37 15 A 2 2 0 0 0 39 13 A 2 2 0 0 0 37 11 z M 25 14 C 18.936712 14 14 18.936712 14 25 C 14 31.063288 18.936712 36 25 36 C 31.063288 36 36 31.063288 36 25 C 36 18.936712 31.063288 14 25 14 z M 25 16 C 29.982407 16 34 20.017593 34 25 C 34 29.982407 29.982407 34 25 34 C 20.017593 34 16 29.982407 16 25 C 16 20.017593 20.017593 16 25 16 z" />
+                  </svg>
+                }
+              />
+            )}
+            {whatsappUrl && (
+              <SocialRow
+                href={whatsappUrl}
+                label="WhatsApp"
+                icon={
+                  <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                    <path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.078 4.487.71.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+                  </svg>
+                }
+              />
+            )}
+            <div className="border-t border-gray-200" />
+          </div>
         </div>
 
-        {/* Bottom area */}
-        <div className="md:flex md:items-center md:justify-between py-4 md:py-8 border-t border-gray-200">
-          {/* Social as */}
-          <ul className="flex mb-4 md:order-1 md:ml-4 md:mb-0">
-            <li>
-              <a
-                href="https://www.instagram.com/revivsome.id"
-                className="flex justify-center items-center text-black hover:text-gray-700 bg-white hover:bg-white-100 transition duration-150 ease-in-out"
-                aria-label="Twitter"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6 fill-current"
-                  viewBox="0 0 50 50"
-                >
-                  <path d="M 16 3 C 8.8324839 3 3 8.8324839 3 16 L 3 34 C 3 41.167516 8.8324839 47 16 47 L 34 47 C 41.167516 47 47 41.167516 47 34 L 47 16 C 47 8.8324839 41.167516 3 34 3 L 16 3 z M 16 5 L 34 5 C 40.086484 5 45 9.9135161 45 16 L 45 34 C 45 40.086484 40.086484 45 34 45 L 16 45 C 9.9135161 45 5 40.086484 5 34 L 5 16 C 5 9.9135161 9.9135161 5 16 5 z M 37 11 A 2 2 0 0 0 35 13 A 2 2 0 0 0 37 15 A 2 2 0 0 0 39 13 A 2 2 0 0 0 37 11 z M 25 14 C 18.936712 14 14 18.936712 14 25 C 14 31.063288 18.936712 36 25 36 C 31.063288 36 36 31.063288 36 25 C 36 18.936712 31.063288 14 25 14 z M 25 16 C 29.982407 16 34 20.017593 34 25 C 34 29.982407 29.982407 34 25 34 C 20.017593 34 16 29.982407 16 25 C 16 20.017593 20.017593 16 25 16 z"></path>
-                </svg>
-              </a>
-            </li>
-            {/* <li className="ml-4">
-              <a
-                href="#0"
-                className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
-                aria-label="Github"
-              >
-                <svg
-                  className="w-8 h-8 fill-current"
-                  viewBox="0 0 32 32"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M16 8.2c-4.4 0-8 3.6-8 8 0 3.5 2.3 6.5 5.5 7.6.4.1.5-.2.5-.4V22c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.3.7.1-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8.6-.2 1.3-.3 2-.3s1.4.1 2 .3c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.7 3.9.3.4.6.9.6 1.6v2.2c0 .2.1.5.6.4 3.2-1.1 5.5-4.1 5.5-7.6-.1-4.4-3.7-8-8.1-8z" />
-                </svg>
-              </a>
-            </li>
-            <li className="ml-4">
-              <a
-                href="#0"
-                className="flex justify-center items-center text-gray-600 hover:text-gray-900 bg-white hover:bg-white-100 rounded-full shadow transition duration-150 ease-in-out"
-                aria-label="Facebook"
-              >
-                <svg
-                  className="w-8 h-8 fill-current"
-                  viewBox="0 0 32 32"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M14.023 24L14 17h-3v-3h3v-2c0-2.7 1.672-4 4.08-4 1.153 0 2.144.086 2.433.124v2.821h-1.67c-1.31 0-1.563.623-1.563 1.536V14H21l-1 3h-2.72v7h-3.257z" />
-                </svg>
-              </a>
-            </li> */}
-          </ul>
-
-          {/* Copyrights note */}
-          {/* <div className="text-sm text-gray-600 mr-4">
-            &copy; Cruip.com. All rights reserved.
-          </div> */}
+        {/* Copyright */}
+        <div className="border-t border-gray-200 py-6 text-center text-xs text-gray-400">
+          © Copyright 2024 · PT SUPIO COSMETICS INDONESIA
         </div>
       </div>
     </footer>

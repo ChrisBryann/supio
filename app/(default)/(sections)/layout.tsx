@@ -15,8 +15,10 @@ export default function SectionLayout({
 }) {
   return (
     <section>
-      <div className="max-w-6xl mx-auto px-4 md:px-6">
-        <div className="py-8">
+      {/* max-w-site + padding match the header/landing so content aligns with
+          the logo; pt offset clears the fixed site header (h-20). */}
+      <div className="max-w-site mx-auto px-6 lg:px-8">
+        <div className="pt-28 pb-8">
           {children}
         </div>
       </div>

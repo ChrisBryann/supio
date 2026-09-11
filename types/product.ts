@@ -7,5 +7,8 @@ export interface Product {
     main_description: string;
     additional_description?: string;
     product_image: ImageUpload;
+    // Optional PayloadCMS upload (e.g. a PDF); render the brochure link only
+    // when present.
+    brochure?: ImageUpload;
   }
   

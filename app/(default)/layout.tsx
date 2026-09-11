@@ -8,7 +8,10 @@ export default function DefaultLayout({
 }) {
   return (
     <>
-      <Header />
+      <Header
+        instagramUrl={process.env.INSTAGRAM_URL}
+        whatsappUrl={process.env.WHATSAPP_URL}
+      />
       <main className="grow">{children}</main>
       <Footer />
     </>

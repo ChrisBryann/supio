@@ -1,36 +1,30 @@
-import { Separator } from "../ui/separator";
 import Skeleton from "./skeleton";
 
 export function PartnerSkeleton() {
   return (
-    <div className="flex flex-col gap-8">
-      <div className="max-w-3xl mx-auto flex flex-col items-center justify-center text-center">
-        <h1 className="text-5xl font-semibold">Our Partners</h1>
-        <h2 className="text-lg">
-          SCI Aesthetics partners with trusted industry leaders to deliver
-          premium products and innovative solutions that meet the highest
-          standards of quality and care.
-        </h2>
+    <div className="flex flex-col gap-10">
+      {/* Header */}
+      <div className="flex max-w-2xl flex-col gap-4">
+        <Skeleton className="h-3 w-32" />
+        <Skeleton className="h-12 w-full max-w-xl" />
+        <Skeleton className="h-16 w-full max-w-xl" />
       </div>
-      <Separator />
-      <div className="flex flex-col md:flex-row gap-4">
-        <Skeleton className="w-full sm:min-w-[250px] sm:max-w-[250px] h-8" />
-        <div className="w-full flex flex-col gap-4">
-          <div className="flex flex-row gap-2 items-center">
-            <Skeleton className="w-full h-8" />
+
+      {/* Filters */}
+      <div className="flex flex-col gap-3 md:flex-row">
+        <Skeleton className="h-12 w-full rounded-full md:w-72" />
+        <Skeleton className="h-12 flex-1 rounded-full" />
+      </div>
+
+      {/* Grid */}
+      <div className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <div key={i} className="flex flex-col gap-3">
+            <Skeleton className="aspect-square w-full" />
+            <Skeleton className="h-3 w-20" />
+            <Skeleton className="h-5 w-32" />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-            <Skeleton className="w-full h-[250px]" />
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
