@@ -1,8 +1,10 @@
 import crypto from "crypto";
 
 const ACCURATE_TOKEN_URL =
-  process.env.ACCURATE_TOKEN_URL || "https://account.accurate.id/api/api-token.do";
-const SERIAL_NUMBER_MUTATION_PATH = "/accurate/api/report/serial-number-mutation.do";
+  process.env.ACCURATE_TOKEN_URL ||
+  "https://account.accurate.id/api/api-token.do";
+const SERIAL_NUMBER_MUTATION_PATH =
+  "/accurate/api/report/serial-number-mutation.do";
 const ITEM_DETAIL_PATH = "/accurate/api/item/detail.do";
 
 // Accurate recommends re-checking the host at least every 30 days; we cache
@@ -63,7 +65,7 @@ async function resolveHost(): Promise<string> {
 
 async function accurateGet(
   path: string,
-  params: Record<string, string>
+  params: Record<string, string>,
 ): Promise<any> {
   const host = await resolveHost();
   const url = new URL(path, host);
@@ -88,7 +90,9 @@ async function accurateGet(
 /** Fetches a file served under Accurate's own host, which requires the same
  * signed auth headers as the API - a browser can't load it directly, so we
  * inline it as a data URI. */
-async function fetchAccurateFileAsDataUri(path: string): Promise<string | null> {
+async function fetchAccurateFileAsDataUri(
+  path: string,
+): Promise<string | null> {
   const host = await resolveHost();
   const url = new URL(path, host).toString();
 
@@ -115,11 +119,14 @@ export type StockRecord = {
  */
 export async function findStockRecord(
   productId: string,
-  serial: string
+  serial: string,
 ): Promise<StockRecord | null> {
-  if (!process.env.ACCURATE_API_TOKEN || !process.env.ACCURATE_SIGNATURE_SECRET) {
+  if (
+    !process.env.ACCURATE_API_TOKEN ||
+    !process.env.ACCURATE_SIGNATURE_SECRET
+  ) {
     console.warn(
-      "[accurate] ACCURATE_API_TOKEN/ACCURATE_SIGNATURE_SECRET not configured - findStockRecord is stubbed"
+      "[accurate] ACCURATE_API_TOKEN/ACCURATE_SIGNATURE_SECRET not configured - findStockRecord is stubbed",
     );
     return null;
   }
@@ -129,8 +136,41 @@ export async function findStockRecord(
     serialNumber: serial,
   });
 
-  const match = (mutations?.d ?? []).find(
-    (entry: any) => entry?.serialNumber?.number === serial
+  const entries = (mutations?.d ?? []).filter(
+    (entry: any) => entry?.serialNumber?.number === serial,
+  );
+  if (!entries.length) return null;
+
+  const inbound = entries.filter(
+    (entry: any) =>
+      typeof entry?.transaction?.quantity === "number" &&
+      entry.transaction.quantity > 0,
+  );
+
+  if (!inbound.length) {
+    // Every row is outbound: the serial exists but never entered stock in this
+    // company file. That is a data problem, not a counterfeit - say so plainly
+    // rather than letting it surface as a failed signature.
+    console.error(
+      "[accurate] no stock-in mutation for serial",
+      serial,
+      "- rows:",
+      entries.map((e: any) => ({
+        number: e?.transaction?.number,
+        date: e?.transaction?.transactionDate,
+        qty: e?.transaction?.quantity,
+      })),
+    );
+    return null;
+  }
+
+  // Earliest stock-in wins. Dates are "YYYY-MM-DD", so a plain string compare
+  // orders them correctly without parsing.
+  const match = inbound.reduce((earliest: any, entry: any) =>
+    String(entry.transaction.transactionDate) <
+    String(earliest.transaction.transactionDate)
+      ? entry
+      : earliest,
   );
   if (!match) return null;
 
