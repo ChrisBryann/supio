@@ -1,7 +1,12 @@
 "use client";
 import { Partner } from "@/types";
 import { ComboBox } from "./ui/combobox";
-import { useState, useTransition } from "react";
+import {
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
 import Image from "next/image";
 import {
   Pagination,
@@ -10,13 +15,13 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "./ui/pagination";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { LoaderCircle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 
 type Props = {
   partners: Partner[];
-  pageCount: number;
 };
+
+const PAGE_SIZE = 12;
 
 function getInitials(name: string) {
   return name
@@ -27,41 +32,49 @@ function getInitials(name: string) {
     .join("");
 }
 
-export default function PartnerPage({ partners, pageCount }: Props) {
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const { replace } = useRouter();
-  const currentPage = Number(searchParams.get("page")) || 1;
+export default function PartnerPage({ partners }: Props) {
   const [open, setOpen] = useState(false);
   const [location, setLocation] = useState("");
+  const [query, setQuery] = useState("");
+  const [page, setPage] = useState(1);
 
-  const [isPending, setIsPending] = useTransition();
-
-  const handlePartnerSearchURL = (query: string) => {
-    const params = new URLSearchParams(searchParams);
-    if (query) {
-      params.set("query", query);
-    } else {
-      params.delete("query");
-    }
-    setIsPending(() => {
-      replace(`${pathname}?${params.toString()}`);
-    });
-  };
-
-  const createPartnerPageURL = (pageNumber: number | string) => {
-    const params = new URLSearchParams(searchParams);
-    params.set("page", pageNumber.toString());
-    return `${pathname}?${params.toString()}`;
-  };
-
-  const regions = [...new Set(partners.flatMap((p) => p.location))].map(
-    (region) => ({ label: region, value: region })
+  // Dropdown options come from the ENTIRE dataset, so the selected region
+  // never disappears from the control.
+  const regions = useMemo(
+    () =>
+      [...new Set(partners.flatMap((p) => p.location))].map((region) => ({
+        label: region,
+        value: region,
+      })),
+    [partners]
   );
 
-  const visible = location
-    ? partners.filter((partner) => partner.location.includes(location))
-    : partners;
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return partners.filter((partner) => {
+      const matchesRegion = !location || partner.location.includes(location);
+      const matchesQuery = !q || partner.name.toLowerCase().includes(q);
+      return matchesRegion && matchesQuery;
+    });
+  }, [partners, location, query]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const paged = filtered.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE
+  );
+
+  // Selecting a region/searching changes the result set, so jump back to page 1.
+  const handleRegionChange: Dispatch<SetStateAction<string>> = (value) => {
+    setLocation(value);
+    setPage(1);
+  };
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    setPage(1);
+  };
 
   return (
     <div className="flex flex-col gap-10">
@@ -87,35 +100,31 @@ export default function PartnerPage({ partners, pageCount }: Props) {
             open={open}
             setOpen={setOpen}
             value={location}
-            setValue={setLocation}
+            setValue={handleRegionChange}
             options={regions}
             type="Region"
           />
         </div>
         <div className="relative flex-1">
           <span className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
-            {isPending ? (
-              <LoaderCircle className="size-5 animate-spin" />
-            ) : (
-              <Search className="size-5" />
-            )}
+            <Search className="size-5" />
           </span>
           <input
             type="text"
             placeholder="Search"
-            onChange={(e) => handlePartnerSearchURL(e.target.value)}
-            defaultValue={searchParams.get("query")?.toString()}
+            value={query}
+            onChange={(e) => handleQueryChange(e.target.value)}
             className="h-12 w-full rounded-full border border-gray-300 bg-white pl-12 pr-5 text-base text-gray-800 placeholder:text-gray-400 focus:border-gray-400 focus:outline-none focus:ring-0"
           />
         </div>
       </div>
 
       {/* Grid */}
-      {visible.length === 0 ? (
+      {paged.length === 0 ? (
         <p className="py-16 text-center text-gray-500">No partners found.</p>
       ) : (
         <div className="grid grid-cols-2 gap-x-4 gap-y-8 lg:grid-cols-4">
-          {visible.map((partner) => (
+          {paged.map((partner) => (
             <div key={partner.id} className="flex flex-col">
               <div className="relative aspect-square w-full overflow-hidden bg-white">
                 {partner.partner_image?.url ? (
@@ -147,17 +156,21 @@ export default function PartnerPage({ partners, pageCount }: Props) {
         </div>
       )}
 
-      {/* Pagination */}
+      {/* Pagination (client-side) */}
       {pageCount > 1 && (
         <Pagination>
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
-                href={createPartnerPageURL(currentPage - 1)}
-                aria-disabled={currentPage <= 1}
-                tabIndex={currentPage <= 1 ? -1 : undefined}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (safePage > 1) setPage(safePage - 1);
+                }}
+                aria-disabled={safePage <= 1}
+                tabIndex={safePage <= 1 ? -1 : undefined}
                 className={
-                  currentPage <= 1
+                  safePage <= 1
                     ? "pointer-events-none opacity-50"
                     : undefined
                 }
@@ -165,16 +178,20 @@ export default function PartnerPage({ partners, pageCount }: Props) {
             </PaginationItem>
             <PaginationItem>
               <span className="px-2 text-sm text-gray-500">
-                Page {currentPage} of {pageCount}
+                Page {safePage} of {pageCount}
               </span>
             </PaginationItem>
             <PaginationItem>
               <PaginationNext
-                href={createPartnerPageURL(currentPage + 1)}
-                aria-disabled={currentPage >= pageCount}
-                tabIndex={currentPage >= pageCount ? -1 : undefined}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (safePage < pageCount) setPage(safePage + 1);
+                }}
+                aria-disabled={safePage >= pageCount}
+                tabIndex={safePage >= pageCount ? -1 : undefined}
                 className={
-                  currentPage >= pageCount
+                  safePage >= pageCount
                     ? "pointer-events-none opacity-50"
                     : undefined
                 }
