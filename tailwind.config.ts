@@ -167,6 +167,7 @@ module.exports = {
         move: "move 5s linear infinite",
         drift: "drift 16s ease-in-out infinite",
         marquee: "marquee 40s linear infinite",
+        "wm-drift": "wm-drift 70s ease-in-out infinite alternate",
       },
       keyframes: {
         float: {
@@ -189,6 +190,14 @@ module.exports = {
         marquee: {
           "0%": { transform: "translateX(0)" },
           "100%": { transform: "translateX(-50%)" },
+        },
+        // Seminar watermark: one large block wandering across the frame.
+        "wm-drift": {
+          "0%": { left: "4%", top: "6%" },
+          "25%": { left: "50%", top: "16%" },
+          "50%": { left: "34%", top: "56%" },
+          "75%": { left: "6%", top: "46%" },
+          "100%": { left: "54%", top: "60%" },
         },
       },
       zIndex: {

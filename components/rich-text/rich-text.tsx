@@ -12,18 +12,20 @@ import type {
   SerializedUploadNode,
 } from "@payloadcms/richtext-lexical";
 import Image from "next/image";
+import { legalPagePath } from "@/lib/legal-routes";
 
 type Props = {
   richContent: SerializedEditorState;
+  // Render the nodes without the prose wrapper, inheriting the surrounding
+  // typography (e.g. inside a legal page's prose column).
+  bare?: boolean;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { relationTo, value } = linkNode.fields.doc!;
-  if (typeof value !== "object") {
-    throw new Error(
-      "RichText.InternalDocToHref: Expected value to be an object"
-    );
-  }
+  // Not populated: the linked doc is unpublished or hidden from this reader.
+  // A dead link beats taking the whole page down.
+  if (typeof value !== "object" || value === null) return "#";
   const slug = value.slug;
 
   switch (relationTo) {
@@ -31,6 +33,8 @@ const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
       return `/products/${slug}`;
     case "events":
       return `/events/${slug}`;
+    case "legal-pages":
+      return legalPagePath(slug);
     default:
       return `/${relationTo}/${slug}`;
   }
@@ -106,7 +110,10 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
   // list: listConverter,
   upload: uploadConverter,
 });
-export default function RichText({ richContent, className, ...rest }: Props) {
+export default function RichText({ richContent, bare, className, ...rest }: Props) {
+  if (bare) {
+    return <RichTextConverter converters={jsxConverters} data={richContent} disableContainer />;
+  }
   return (
     <RichTextConverter
       converters={jsxConverters}

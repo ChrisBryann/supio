@@ -3,10 +3,13 @@
 import { useState, useEffect } from "react";
 
 import Link from "next/link";
+import { LogOut } from "lucide-react";
 import BrandLogo from "@/public/images/brand-logo-colored.png";
 import MobileMenu from "./mobile-menu";
 import Image from "next/image";
 import { Button } from "./button";
+import { useAuth } from "@/components/auth/auth-provider";
+import { NAV_LINKS } from "./nav-links";
 
 function WhatsappIcon({ className }: { className?: string }) {
   return (
@@ -23,6 +26,7 @@ type Props = {
 
 export default function Header({ instagramUrl, whatsappUrl }: Props) {
   const [top, setTop] = useState<boolean>(true);
+  const { status, logout } = useAuth();
   // detect whether user has scrolled the page down by 10px
   const scrollHandler = () => {
     window.pageYOffset > 10 ? setTop(false) : setTop(true);
@@ -57,34 +61,44 @@ export default function Header({ instagramUrl, whatsappUrl }: Props) {
 
         {/* Desktop navigation */}
         <div className="hidden lg:flex items-center gap-x-1">
-          <Button
-            asChild
-            variant={"link"}
-            className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
-          >
-            <Link href={"/"}>Home</Link>
-          </Button>
-          <Button
-            asChild
-            variant={"link"}
-            className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
-          >
-            <Link href={"/products"}>Products</Link>
-          </Button>
-          <Button
-            asChild
-            variant={"link"}
-            className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
-          >
-            <Link href={"/blogs"}>Blogs</Link>
-          </Button>
-          <Button
-            asChild
-            variant={"link"}
-            className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
-          >
-            <Link href={"/partners"}>Partners</Link>
-          </Button>
+          {NAV_LINKS.map((link) => (
+            <Button
+              key={link.href}
+              asChild
+              variant={"link"}
+              className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
+            >
+              <Link href={link.href}>{link.label}</Link>
+            </Button>
+          ))}
+          {status === "authenticated" && (
+            <>
+              <Button
+                asChild
+                variant={"link"}
+                className="text-sm font-medium uppercase tracking-wide text-gray-900 hover:text-gray-600 px-4 py-3 transition duration-150 ease-in-out"
+              >
+                <Link href="/my-seminars">My Seminars</Link>
+              </Button>
+              <button
+                type="button"
+                onClick={logout}
+                aria-label="Sign out"
+                title="Sign out"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-gray-700 transition hover:bg-gray-100 hover:text-gray-900"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </>
+          )}
+          {status === "unauthenticated" && (
+            <Link
+              href="/login"
+              className="ml-2 rounded-full border border-gray-300 px-4 py-2 text-sm font-medium uppercase tracking-wide text-gray-900 transition hover:border-gray-900 hover:bg-gray-900 hover:text-white"
+            >
+              Sign in
+            </Link>
+          )}
           {whatsappUrl && (
             <Link
               href={whatsappUrl}

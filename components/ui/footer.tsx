@@ -1,6 +1,7 @@
 import Image from "next/image";
 import BrandLogo from "@/public/images/brand-logo-colored.png";
 import Link from "next/link";
+import { COMPANY } from "@/lib/company";
 
 function SocialRow({
   href,
@@ -60,8 +61,7 @@ export default function Footer() {
               />
             </Link>
             <address className="mt-6 max-w-xs text-sm not-italic leading-relaxed text-gray-500">
-              Ciputra World Office Unit 1003, Jl. Mayjen Sungkono No.87 Lantai
-              10, Gn. Sari, Kec. Dukuhpakis, Surabaya, Jawa Timur 60224
+              {COMPANY.address}
             </address>
           </div>
 
@@ -94,8 +94,16 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="border-t border-gray-200 py-6 text-center text-xs text-gray-400">
-          © Copyright 2024 · PT SUPIO COSMETICS INDONESIA
+        <div className="flex flex-col items-center justify-between gap-3 border-t border-gray-200 py-6 text-xs text-gray-400 sm:flex-row">
+          <span>© Copyright 2024 · {COMPANY.legalName}</span>
+          <nav aria-label="Legal" className="flex gap-5">
+            <Link href="/privacy-policy" className="transition hover:text-gray-700">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition hover:text-gray-700">
+              Terms &amp; Conditions
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>
