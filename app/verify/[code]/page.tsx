@@ -1,9 +1,14 @@
 import { parseQrCode, verifyQrSignature } from "@/lib/qr-token";
 import { findStockRecord } from "@/lib/accurate";
 import VerifyResult from "@/components/verify-result";
-import { Viewport } from "next";
+import { Metadata, Viewport } from "next";
 
 export const dynamic = "force-dynamic";
+
+// One URL per printed QR code: keep them out of search results.
+export const metadata: Metadata = {
+  robots: { index: false, follow: false },
+};
 
 // Regular Safari (not "Add to Home Screen") draws the status-bar and
 // home-indicator areas itself - a page can't paint literally behind the
