@@ -4,6 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import { Transition } from "@headlessui/react";
 import Link from "next/link";
 import { Button } from "./button";
+import { NAV_LINKS } from "./nav-links";
+import { useAuth } from "@/components/auth/auth-provider";
 
 type Props = {
   instagramUrl?: string;
@@ -12,6 +14,12 @@ type Props = {
 
 export default function MobileMenu({ instagramUrl, whatsappUrl }: Props) {
   const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false);
+  const { status, logout } = useAuth();
+
+  const handleLogout = () => {
+    setMobileNavOpen(false);
+    logout();
+  };
 
   const trigger = useRef<HTMLButtonElement>(null);
   const mobileNav = useRef<HTMLDivElement>(null);
@@ -80,66 +88,49 @@ export default function MobileMenu({ instagramUrl, whatsappUrl }: Props) {
         >
           <ul className="px-5 py-2 space-y-8">
             <li>
-              <Button
+              {NAV_LINKS.map((link) => (
+                <Button
+                  key={link.href}
                   asChild
                   variant={"link"}
                   className="flex text-md font-medium mx-auto py-2"
                 >
-                  <Link
-                    href={"/"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Home
+                  <Link href={link.href} onClick={() => setMobileNavOpen(false)}>
+                    {link.label}
                   </Link>
                 </Button>
+              ))}
+              {status === "authenticated" && (
+                <>
+                  <Button
+                    asChild
+                    variant={"link"}
+                    className="flex text-md font-medium mx-auto py-2"
+                  >
+                    <Link href="/my-seminars" onClick={() => setMobileNavOpen(false)}>
+                      My Seminars
+                    </Link>
+                  </Button>
+                  <Button
+                    variant={"link"}
+                    className="flex text-md font-medium mx-auto py-2"
+                    onClick={handleLogout}
+                  >
+                    Sign out
+                  </Button>
+                </>
+              )}
+              {status === "unauthenticated" && (
                 <Button
                   asChild
                   variant={"link"}
                   className="flex text-md font-medium mx-auto py-2"
                 >
-                  <Link
-                    href={"/products"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Products
+                  <Link href="/login" onClick={() => setMobileNavOpen(false)}>
+                    Sign in
                   </Link>
                 </Button>
-                {/* <Button
-                  asChild
-                  variant={"link"}
-                  className="flex text-md font-medium mx-auto py-2"
-                >
-                  <Link
-                    href={"/events"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Events
-                  </Link>
-                </Button> */}
-                <Button
-                  asChild
-                  variant={"link"}
-                  className="flex text-md font-medium mx-auto py-2"
-                >
-                  <Link
-                    href={"/blogs"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Blogs
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  variant={"link"}
-                  className="flex text-md font-medium mx-auto py-2"
-                >
-                  <Link
-                    href={"/partners"}
-                    onClick={() => setMobileNavOpen(false)}
-                  >
-                    Partners
-                  </Link>
-                </Button>
+              )}
             </li>
             {(instagramUrl || whatsappUrl) && (
               <li className="flex justify-center gap-6 pt-4">

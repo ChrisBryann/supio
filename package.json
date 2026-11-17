@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -13,6 +13,7 @@
     "@floating-ui/react": "^0.27.13",
     "@headlessui/react": "^2.2.4",
     "@hookform/resolvers": "^5.1.1",
+    "@mux/mux-player-react": "^3.14.1",
     "@payloadcms/richtext-lexical": "^3.49.1",
     "@radix-ui/react-dialog": "^1.1.15",
     "@radix-ui/react-label": "^2.1.7",
