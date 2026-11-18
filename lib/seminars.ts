@@ -1,7 +1,9 @@
 import type { Seminar } from "@/types";
 import { API_URL, apiHeaders } from "./seminar-api";
+import type { CacheTag } from "./cache-tags";
 
 // Public catalogue reads (identical for every visitor, safe to cache/ISR).
+// Tagged "seminars": the CMS revalidates them as soon as a seminar changes.
 // Customer-specific calls never go through here; they run in the browser.
 
 // Returns null when the catalogue couldn't be loaded (so the page can show a
@@ -11,6 +13,7 @@ export async function getSeminars(): Promise<Seminar[] | null> {
   try {
     const res = await fetch(`${API_URL}/api/seminars?depth=1&limit=0`, {
       headers: apiHeaders(),
+      next: { tags: ["seminars"] satisfies CacheTag[] },
     });
     if (!res.ok) {
       console.error("[seminars] list fetch failed:", res.status);
@@ -30,7 +33,7 @@ export async function getSeminarBySlug(slug: string): Promise<Seminar | null> {
   if (!API_URL) return null;
   const res = await fetch(
     `${API_URL}/api/seminars?where[slug][equals]=${encodeURIComponent(slug)}&limit=1&depth=1`,
-    { headers: apiHeaders() }
+    { headers: apiHeaders(), next: { tags: ["seminars"] satisfies CacheTag[] } }
   );
   if (!res.ok) {
     throw new Error(`[seminars] detail fetch failed: ${res.status}`);

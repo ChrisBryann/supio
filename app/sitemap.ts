@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { API_URL, apiHeaders } from "@/lib/seminar-api";
 import { legalPagePath } from "@/lib/legal-routes";
 import { SITE_URL } from "@/lib/site-url";
+import type { CacheTag } from "@/lib/cache-tags";
 
 // Served at /sitemap.xml. Public, indexable pages only: sign-in, My Seminars,
 // watch pages and QR verification pages are left out (and marked noindex).
@@ -12,9 +13,17 @@ const TIMEOUT_MS = 15_000;
 type Doc = { id: string; slug?: string; updatedAt?: string };
 
 // A failing source drops its entries instead of failing the whole sitemap.
-async function fetchDocs(url: string, headers: Record<string, string>): Promise<Doc[]> {
+async function fetchDocs(
+  url: string,
+  headers: Record<string, string>,
+  tags: CacheTag[] = []
+): Promise<Doc[]> {
   try {
-    const res = await fetch(url, { headers, signal: AbortSignal.timeout(TIMEOUT_MS) });
+    const res = await fetch(url, {
+      headers,
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+      next: { tags },
+    });
     if (!res.ok) {
       console.error("[sitemap] fetch failed:", url.split("?")[0], res.status);
       return [];
@@ -39,7 +48,8 @@ function apiDocs(collection: "seminars" | "legal-pages") {
   if (!API_URL) return Promise.resolve([]);
   return fetchDocs(
     `${API_URL}/api/${collection}?limit=0&depth=0&select[slug]=true&select[updatedAt]=true`,
-    apiHeaders()
+    apiHeaders(),
+    [collection]
   );
 }
 

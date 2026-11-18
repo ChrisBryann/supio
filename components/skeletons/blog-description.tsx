@@ -1,20 +1,27 @@
 import Skeleton from "./skeleton";
 
+// Mirrors components/blog-description.tsx.
 export function BlogDescriptionSkeleton() {
   return (
-    <div className="max-w-3xl mx-auto w-full flex flex-col gap-4">
-        {/* COVER IMAGE */}
-      <Skeleton className="w-full h-[300px]" />
-      {/* TITLE */}
-      <Skeleton className="w-full h-[50px]" />
-      <div className="flex flex-row justify-between">
-        {/* AUTHOR & DATE */}
-        <Skeleton className="w-[150px] h-[25px]" />
-        <Skeleton className="w-[100px] h-[25px]" />
+    <div className="flex w-full flex-col gap-10">
+      {/* BREADCRUMB */}
+      <Skeleton className="h-4 w-48" />
+      {/* TITLE BLOCK */}
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
+        <Skeleton className="h-3 w-24" />
+        <Skeleton className="h-12 w-full" />
+        <Skeleton className="h-6 w-4/5" />
+        <Skeleton className="mt-2 h-4 w-40" />
       </div>
-      <hr />
-      {/* RICH TEXT CONTENT */}
-      <Skeleton className="w-full h-[500px]" />
+      {/* COVER */}
+      <Skeleton className="mx-auto aspect-[16/9] w-full max-w-5xl rounded-none" />
+      {/* CONTENT */}
+      <div className="mx-auto flex w-full max-w-3xl flex-col gap-3">
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-11/12" />
+        <Skeleton className="h-4 w-3/4" />
+      </div>
     </div>
   );
 }
