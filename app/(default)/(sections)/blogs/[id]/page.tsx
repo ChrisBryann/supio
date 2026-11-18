@@ -38,8 +38,6 @@ export default async function BlogDescription({ params }: Props) {
       },
     }
   );
-  console.log("RESPONSE STATUS:", response.status);
-
   if (!response.ok) {
     console.error("BAD RESPONSE:", response.status, response.statusText);
     return notFound();

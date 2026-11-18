@@ -2,9 +2,11 @@ import { cache } from "react";
 import type { CompanyInfo, LegalPage } from "@/types";
 import { API_URL, apiHeaders } from "./seminar-api";
 import { COMPANY } from "./company";
+import type { CacheTag } from "./cache-tags";
 
 // Legal pages and company info live on the same Payload backend as seminars.
-// Public, identical for every visitor: safe to cache/ISR.
+// Public, identical for every visitor: safe to cache/ISR, and tagged so the
+// CMS can revalidate them on publish.
 
 // A hung backend shouldn't stall a build or an ISR regeneration.
 const TIMEOUT_MS = 15_000;
@@ -17,7 +19,11 @@ export const getLegalPage = cache(async (slug: string): Promise<LegalPage | null
   if (!API_URL) return null;
   const res = await fetch(
     `${API_URL}/api/legal-pages?where[slug][equals]=${encodeURIComponent(slug)}&depth=1&limit=1`,
-    { headers: apiHeaders(), signal: AbortSignal.timeout(TIMEOUT_MS) }
+    {
+      headers: apiHeaders(),
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+      next: { tags: ["legal-pages"] satisfies CacheTag[] },
+    }
   );
   if (!res.ok) {
     throw new Error(`[legal-pages] fetch failed for "${slug}": ${res.status}`);
@@ -41,6 +47,7 @@ export const getCompanyInfo = cache(async (): Promise<CompanyInfo> => {
     const res = await fetch(`${API_URL}/api/globals/company-info`, {
       headers: apiHeaders(),
       signal: AbortSignal.timeout(TIMEOUT_MS),
+      next: { tags: ["company-info"] satisfies CacheTag[] },
     });
     if (!res.ok) {
       console.error("[company-info] fetch failed:", res.status);
